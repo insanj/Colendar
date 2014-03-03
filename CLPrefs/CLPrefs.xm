@@ -149,8 +149,9 @@ static UIColor *cl_getTintColor() {
 	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 
+	[winterboardView release];
 	[specifier setProperty:image forKey:@"iconImage"];
-	CLWinterBoardButtonCell *cell = [super initWithStyle:style reuseIdentifier:reuseIdentifier specifier:specifier];
+	CLWinterBoardButtonCell *cell = [[super initWithStyle:style reuseIdentifier:reuseIdentifier specifier:specifier] autorelease];
 
 	return cell;
 }
@@ -168,7 +169,6 @@ static UIColor *cl_getTintColor() {
 	CGRect doubleFrame = self.contentView.frame;
 	doubleFrame.size.height *= 2;
 	[self.imageView setCenter:CGPointMake(self.imageView.center.x, CGRectGetMidY(doubleFrame))];
-//  [self.imageView setCenter:CGPointMake(self.imageView.center.x, self.imageView.center.y + ceilf(CGRectGetHeight(self.imageView.frame) / 1.5))];
 }
 
 @end
@@ -180,11 +180,11 @@ static UIColor *cl_getTintColor() {
 
 - (void)layoutSubviews {
 	[super layoutSubviews];
+
 	CGRect doubleFrame = self.contentView.frame;
 	doubleFrame.origin.y -= doubleFrame.size.height;
 	doubleFrame.size.height *= 2;
 	[self.imageView setCenter:CGPointMake(self.imageView.center.x, CGRectGetMidY(doubleFrame))];
-//  [self.imageView setCenter:CGPointMake(self.imageView.center.x, self.imageView.center.y - ceilf(CGRectGetHeight(self.imageView.frame) / 1.5))];
 }
 
 @end
@@ -219,7 +219,7 @@ static UIColor *cl_getTintColor() {
 									@"White" 	: UIColorFromRGB(0xffffff),
 									@"Yellow"	: UIColorFromRGB(0xffff3b) };
 
-	UIView *colorThumb = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 20.0, 20.0)] autorelease];
+	UIView *colorThumb = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 20.0, 20.0)];
 	colorThumb.backgroundColor = [labelToColor objectForKey:[[cell titleLabel] text]];
 	colorThumb.layer.masksToBounds = YES;
 	colorThumb.layer.cornerRadius = 5.0;
@@ -231,7 +231,9 @@ static UIColor *cl_getTintColor() {
 	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 
+	[colorThumb release];
 	[cell.imageView setImage:image];
+
 	return cell;
 }
 

@@ -77,6 +77,7 @@ void cl_writeToPathWithColorCase(NSString *path, int colorCase){
 			}
 		}
 
+		[themePaths release];
 		[(SpringBoard *)[UIApplication sharedApplication] _relaunchSpringBoardNow];
 	}
 }
