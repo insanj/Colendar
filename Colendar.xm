@@ -59,26 +59,22 @@ void cl_writeToPathWithColorCase(NSString *path, int colorCase){
 		NSError *fileError;
 		NSFileManager *fileManager = [NSFileManager defaultManager];
 
-		NSArray *stashFolders = [fileManager contentsOfDirectoryAtPath:@"/private/var/stash/" error:&fileError];
-		int indexOfLastFolder; BOOL foundFolder;
+		NSArray *stashFolders = [fileManager contentsOfDirectoryAtPath:@"/private/var/stash" error:&fileError];
+		NSMutableArray *themePaths = [[NSMutableArray alloc] init];
 
 		for (NSString *name in stashFolders) {
-			if([name rangeOfString:@"Themes."].location != NSNotFound){
-				indexOfLastFolder = [stashFolders indexOfObject:name];
-				NSString *fullPath = [NSString stringWithFormat:@"/private/var/stash/%@/%@", name, @"Colendar.theme"];
-				if ([fileManager fileExistsAtPath:fullPath]) {
-					NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
-					cl_writeToPathWithColorCase([fullPath stringByAppendingString:@"/Info.plist"], [[settings objectForKey:@"globalColor"] intValue]);
-					foundFolder = YES;
-				}
+			if ([name rangeOfString:@"Themes."].location != NSNotFound) {
+				[themePaths addObject:[@"/private/var/stash/" stringByAppendingString:name]];
 			}
 		}
 
-		if (!foundFolder) {
-			NSString *fullPath = [NSString stringWithFormat:@"/private/var/stash/%@/%@", stashFolders[indexOfLastFolder], @"Colendar.theme"];
-			[fileManager createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:&fileError];
-			NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
-			cl_writeToPathWithColorCase([fullPath stringByAppendingString:@"/Info.plist"], [[settings objectForKey:@"globalColor"] intValue]);
+		for (int i = 0; i < themePaths.count; i++) {
+			NSString *fullPath = [themePaths[i] stringByAppendingString:@"Colendar.theme"];
+			if ([fileManager fileExistsAtPath:fullPath] || i == themePaths.count-1) {
+				[fileManager createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:&fileError];
+				NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
+				cl_writeToPathWithColorCase([fullPath stringByAppendingString:@"/Info.plist"], [[settings objectForKey:@"globalColor"] intValue]);
+			}
 		}
 
 		[(SpringBoard *)[UIApplication sharedApplication] _relaunchSpringBoardNow];
