@@ -5,23 +5,19 @@
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 static UIColor *clTintColor;
-static UIColor *cl_getTintColor(){
-	if (!clTintColor) {
-		NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
-		NSDictionary *labelToColor =  @{ @"Blue"  	: UIColorFromRGB(0x0000cc),
-										 @"Brown" 	: UIColorFromRGB(0xa5492a),
-										 @"Charcoal"  : UIColorFromRGB(0x36454f),
-										 @"Gold"	  : UIColorFromRGB(0xffd700),
-										 @"Gray"	  : UIColorFromRGB(0x808080),
-										 @"Green"	 : UIColorFromRGB(0x27d827),
-										 @"Orange"	: UIColorFromRGB(0xffa500),
-										 @"Pink"	  : UIColorFromRGB(0xff748c),
-										 @"Purple"	: UIColorFromRGB(0x800080),
-										 @"Red" 	  : UIColorFromRGB(0xff0000),
-										 @"White" 	: UIColorFromRGB(0xffffff),
-										 @"Yellow"	: UIColorFromRGB(0xffff3b) };
+static void cl_setTintColor() {
+	NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
+	NSArray *colors =  @[ UIColorFromRGB(0x0000cc), UIColorFromRGB(0xa5492a), UIColorFromRGB(0x36454f),
+					  	UIColorFromRGB(0xffd700), UIColorFromRGB(0x808080), UIColorFromRGB(0x27d827),
+					  	UIColorFromRGB(0xffa500), UIColorFromRGB(0xff748c), UIColorFromRGB(0x800080),
+					  	UIColorFromRGB(0xff0000), UIColorFromRGB(0xffffff), UIColorFromRGB(0xffff3b) ];
 
-		clTintColor = [[labelToColor allValues] objectAtIndex:[[settings objectForKey:@"globalTint"] intValue]];
+	clTintColor = [colors objectAtIndex:[[settings objectForKey:@"globalColor"] intValue]];
+}
+
+static UIColor *cl_getTintColor() {
+	if (!clTintColor) {
+		cl_setTintColor();
 	}
 
 	return clTintColor;
@@ -46,6 +42,7 @@ static UIColor *cl_getTintColor(){
 
 - (void)viewDidLoad{
 	[super viewDidLoad];
+
 	[UISwitch appearanceWhenContainedIn:self.class, nil].onTintColor = cl_getTintColor();
 	[UISegmentedControl appearanceWhenContainedIn:self.class, nil].tintColor = cl_getTintColor();
 }
@@ -155,19 +152,6 @@ static UIColor *cl_getTintColor(){
 	[specifier setProperty:image forKey:@"iconImage"];
 	CLWinterBoardButtonCell *cell = [super initWithStyle:style reuseIdentifier:reuseIdentifier specifier:specifier];
 
-	/*SBApplication *winterboard = [[%c(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:@"com.saurik.WinterBoard"];
-	SBApplicationIcon *winterboardIcon = [[%c(SBApplicationIcon) alloc] initWithApplication:winterboard];
-	id winterBoardImage = [winterboardIcon generateIconImage:1];*/
-
-	//UIImage *image = [[%c(NSWorkspace) sharedWorkspace] iconForFile:[[%c(NSWorkspace) sharedWorkspace] absolutePathForAppBundleWithIdentifier:@"com.saurik.WinterBoard"]];
-
-//	UIImage *image = [[[[%c(SBIconViewMap) homescreenMap] iconModel] iconForDisplayIdentifier:@"com.saurik.WinterBoard"] getIconImage:0];
-
-//	SBApplication *winterboard = [[%c(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:@"com.saurik.WinterBoard"];
-//	UIImage *image = [UIImage imageWithContentsOfFile:[winterboard pathForIcon]];
-
-//	[cell.imageView setImage:image];
-
 	return cell;
 }
 
@@ -218,5 +202,13 @@ static UIColor *cl_getTintColor(){
 	[cell.imageView setImage:image];
 	return cell;
 }
+
+- (void)tableView:(id)arg1 didSelectRowAtIndexPath:(id)arg2 {
+	[super tableView:arg1 didSelectRowAtIndexPath:arg2];
+
+	cl_setTintColor();
+	self.navigationController.navigationBar.tintColor = cl_getTintColor();
+}
+
 
 @end
