@@ -3,8 +3,7 @@
 #include <Preferences/PSTableCell.h>
 #include <UIKit/UIActivityViewController.h>
 #include <Twitter/Twitter.h>
-#include <MessageUI/MessageUI.h>
-#include <notify.h>
+#import "substrate.h"
 
 #define URL_ENCODE(string) [(NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)(string), NULL, CFSTR(":/=,!$& '()*+;[]@#?"), kCFStringEncodingUTF8) autorelease]
 #define CLTintColor [UIColor colorWithRed:40/255.0f green:160/255.0f blue:244/255.0f alpha:1.0f]
@@ -25,6 +24,29 @@
 - (void)viewWillDisappear:(BOOL)animated{
 	[super viewWillDisappear:animated];
 	self.navigationController.navigationBar.tintColor = nil;
+}
+
+- (id)tableView:(id)arg1 cellForRowAtIndexPath:(id)arg2{
+	PSTableCell *cell = [super tableView:arg1 cellForRowAtIndexPath:arg2];
+	if([cell isChecked]){
+		NSDictionary *labelToColor = @{ @"Blue"  	: [UIColor blueColor],
+										@"Brown" 	: [UIColor brownColor],
+										@"Charcoal"  : [UIColor blackColor],
+										@"Gold"	  : [UIColor yellowColor], //!
+										@"Gray"	  : [UIColor grayColor],
+										@"Green"	 : [UIColor greenColor],
+										@"Orange"	: [UIColor orangeColor],
+										@"Pink"	  : [UIColor magentaColor], //!
+										@"Purple"	: [UIColor purpleColor],
+										@"Red" 	  : [UIColor redColor],
+										@"White" 	: [UIColor whiteColor],
+										@"Yellow"	: [UIColor yellowColor] };
+
+		UIImageView *check = MSHookIvar<UIImageView *>(cell, "_checkedImageView");
+		check.backgroundColor = [labelToColor objectForKey:[cell titleLabel]];
+	}
+
+	return cell;
 }
 
 @end

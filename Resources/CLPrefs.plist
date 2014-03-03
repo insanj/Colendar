@@ -34,7 +34,8 @@
 			</array>
 
 			<key>validValues</key> <array>
-			    <integer>1</integer>
+			    <integer>0</integer>
+                <integer>1</integer>
                 <integer>2</integer>
                 <integer>3</integer>
                 <integer>4</integer>
@@ -45,7 +46,6 @@
                 <integer>9</integer>
                 <integer>10</integer>
                 <integer>11</integer>
-                <integer>12</integer>
 			</array>
 		</dict>
 
