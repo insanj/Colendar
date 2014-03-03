@@ -9,6 +9,9 @@
 #define URL_ENCODE(string) [(NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)(string), NULL, CFSTR(":/=,!$& '()*+;[]@#?"), kCFStringEncodingUTF8) autorelease]
 #define CLTintColor [UIColor colorWithRed:40/255.0f green:160/255.0f blue:244/255.0f alpha:1.0f]
 
+@interface NSDistributedNotificationCenter : NSNotificationCenter
+@end
+
 @interface CLListItemsController : PSListItemsController
 @end
 
@@ -92,7 +95,7 @@
 
 	NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
 
-	if(![settings objectForKey:@"globalColor"]){
+	if (![settings objectForKey:@"globalColor"]) {
 		PSSpecifier *colorSpecifier = [self specifierForID:@"GlobalColor"];
 		[self setPreferenceValue:@(1.0) specifier:colorSpecifier];
 		[self reloadSpecifier:colorSpecifier];
@@ -106,44 +109,47 @@
 	self.navigationController.navigationBar.tintColor = nil;
 }
 
-- (void)shareTapped:(UIBarButtonItem *)sender{
+- (void)shareTapped:(UIBarButtonItem *)sender {
 	NSString *text = @"Making a beautiful, colorful Calendar has never been easier than with Colendar by @insanj and @k3levs!";
 	NSURL *url = [NSURL URLWithString:@"http://github.com/insanj/colendar"];
 
-	if(%c(UIActivityViewController)){
+	if(%c(UIActivityViewController)) {
 		UIActivityViewController *viewController = [[[%c(UIActivityViewController) alloc] initWithActivityItems:[NSArray arrayWithObjects:text, url, nil] applicationActivities:nil] autorelease];
 		[self.navigationController presentViewController:viewController animated:YES completion:NULL];
-	} else if (%c(TWTweetComposeViewController) && [TWTweetComposeViewController canSendTweet]) {
+	}
+
+	else if (%c(TWTweetComposeViewController) && [TWTweetComposeViewController canSendTweet]) {
 		TWTweetComposeViewController *viewController = [[[TWTweetComposeViewController alloc] init] autorelease];
 		viewController.initialText = text;
 		[viewController addURL:url];
 		[self.navigationController presentViewController:viewController animated:YES completion:NULL];
-	} else {
+	}
+
+	else {
 		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://twitter.com/intent/tweet?text=%@%%20%@", URL_ENCODE(text), URL_ENCODE(url.absoluteString)]]];
 	}
 }
 
-- (void)respring{
-	system("killall -9 backboardd");
+- (void)respring {
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"CLRespring" object:nil];
 }
 
-- (void)k3levs{
+- (void)k3levs {
 	[self twitter:@"k3levs"];
 }
 
-- (void)insanj{
+- (void)insanj {
 	[self twitter:@"insanj"];
 }
 
-- (void)twitterWithSpecifier:(PSSpecifier *)specifier{
+- (void)twitterWithSpecifier:(PSSpecifier *)specifier {
 	NSString *label = [specifier.properties objectForKey:@"label"];
 	NSString *user = [label substringFromIndex:1];
 
 	[self twitter:user];
 }
 
-- (void)twitter:(NSString *)user{
-
+- (void)twitter:(NSString *)user {
 	if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tweetbot:"]])
 		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:[@"tweetbot:///user_profile/" stringByAppendingString:user]]];
 
