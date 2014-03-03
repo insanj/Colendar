@@ -134,6 +134,10 @@
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"CLRespring" object:nil];
 }
 
+- (void)winterboard {
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"CLWinterboard" object:nil];
+}
+
 - (void)k3levs {
 	[self twitter:@"k3levs"];
 }

@@ -55,6 +55,17 @@
             <key>action</key> 	   <string>respring</string>
         </dict>
 
+        <dict>
+            <key>cell</key>	      <string>PSGroupCell</string>
+        </dict>
+
+        <dict>
+            <key>cell</key> 		 <string>PSButtonCell</string>
+            <key>label</key> 	    <string>Winterboard</string>
+            <key>icon</key> 		 <string>winterboard.png</string>
+            <key>action</key> 	   <string>winterboard</string>
+        </dict>
+
 		<dict>
 			<key>cell</key>	      <string>PSGroupCell</string>
 			<key>label</key>         <string>Credits</string>
