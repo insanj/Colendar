@@ -92,7 +92,7 @@
 }
 
 - (void)respring{
-//	needs a tweak loaded into springboard to do this
+	system("killall -9 backboardd");
 }
 
 - (void)k3levs{

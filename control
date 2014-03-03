@@ -3,7 +3,7 @@ Name: Colendar
 Depends: mobilesubstrate, winterboard
 Version: 0.1
 Architecture: iphoneos-arm
-Description: Settings area for Colendar.
+Description: Change the color of your Calendar icon.
 Maintainer: Julian Weiss <insanjmail@gmail.com>
 Author: Julian (insanj) Weiss
 Section: Tweaks
