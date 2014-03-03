@@ -1,5 +1,4 @@
-#include "substrate.h"
-#import "../Colendar.h"
+#import "CLPrefs.h"
 
 #define URL_ENCODE(string) [(NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)(string), NULL, CFSTR(":/=,!$& '()*+;[]@#?"), kCFStringEncodingUTF8) autorelease]
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
@@ -22,9 +21,6 @@ static UIColor *cl_getTintColor() {
 
 	return clTintColor;
 }
-
-@interface CLPrefsListController : PSListController
-@end
 
 @implementation CLPrefsListController
 
@@ -132,14 +128,10 @@ static UIColor *cl_getTintColor() {
 
 @end
 
-@interface CLWinterBoardButtonCell : PSTableCell
-@end
-
 @implementation CLWinterBoardButtonCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier specifier:(PSSpecifier *)specifier {
-
-	UIImageView *winterboardView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30.0, 30.0)];
+	UIImageView *winterboardView = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30.0, 30.0)] autorelease];
 	[winterboardView setImage:[UIImage imageWithContentsOfFile:@"/Applications/WinterBoard.app/icon.png"]];
 	winterboardView.layer.masksToBounds = YES;
 	winterboardView.layer.cornerRadius = 7.0;
@@ -149,16 +141,12 @@ static UIColor *cl_getTintColor() {
 	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 
-	[winterboardView release];
 	[specifier setProperty:image forKey:@"iconImage"];
 	CLWinterBoardButtonCell *cell = [[super initWithStyle:style reuseIdentifier:reuseIdentifier specifier:specifier] autorelease];
 
 	return cell;
 }
 
-@end
-
-@interface CLButtonShiftTopCell : PSTableCell
 @end
 
 @implementation CLButtonShiftTopCell
@@ -173,9 +161,6 @@ static UIColor *cl_getTintColor() {
 
 @end
 
-@interface CLButtonShiftBottomCell : PSTableCell
-@end
-
 @implementation CLButtonShiftBottomCell
 
 - (void)layoutSubviews {
@@ -187,9 +172,6 @@ static UIColor *cl_getTintColor() {
 	[self.imageView setCenter:CGPointMake(self.imageView.center.x, CGRectGetMidY(doubleFrame))];
 }
 
-@end
-
-@interface CLListItemsController : PSListItemsController
 @end
 
 @implementation CLListItemsController
@@ -219,7 +201,7 @@ static UIColor *cl_getTintColor() {
 									@"White" 	: UIColorFromRGB(0xffffff),
 									@"Yellow"	: UIColorFromRGB(0xffff3b) };
 
-	UIView *colorThumb = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 20.0, 20.0)];
+	UIView *colorThumb = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 20.0, 20.0)] autorelease];
 	colorThumb.backgroundColor = [labelToColor objectForKey:[[cell titleLabel] text]];
 	colorThumb.layer.masksToBounds = YES;
 	colorThumb.layer.cornerRadius = 5.0;
@@ -231,9 +213,7 @@ static UIColor *cl_getTintColor() {
 	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 
-	[colorThumb release];
 	[cell.imageView setImage:image];
-
 	return cell;
 }
 
@@ -243,6 +223,5 @@ static UIColor *cl_getTintColor() {
 	cl_setTintColor();
 	self.navigationController.navigationBar.tintColor = cl_getTintColor();
 }
-
 
 @end
