@@ -1,37 +1,7 @@
 #include "substrate.h"
+#import "Colendar.h"
 
 #define CLDictWithHex(a) @{@"CalendarIconDateStyle" : [NSString stringWithFormat:@"padding: 6px 2px; color: #%@; font-size: 36px;", a], @"CalendarIconDayStyle" :  [NSString stringWithFormat:@"padding: 0px 0px 0px 0px; color:#%@; font-size: 10px;", a] }
-
-@interface NSDistributedNotificationCenter : NSNotificationCenter
-@end
-
-@interface UIApplication (Private)
-- (BOOL)launchApplicationWithIdentifier:(id)arg1 suspended:(BOOL)arg2;
-@end
-
-@interface SBApplication
-@end
-
-@interface SBApplicationController
-+ (id)sharedInstance;
-- (id)applicationWithDisplayIdentifier:(id)id;
-@end
-
-@interface SpringBoard : UIApplication
-- (BOOL)launchApplicationWithIdentifier:(id)identifier suspended:(BOOL)suspended;
-- (void)_applicationOpenURL:(id)url withApplication:(id)application sender:(id)sender publicURLsOnly:(BOOL)only animating:(BOOL)animating additionalActivationFlags:(id)flags activationHandler:(id)handler;
-- (void)_relaunchSpringBoardNow;
-@end
-
-@interface SBUIController
-+ (id)sharedInstace;
-- (void)activateApplicationAnimated:(id)app;
-@end
-
-@interface SBApplicationIcon
-- (id)initWithApplication:(id)application;
-- (id)generateIconImage:(int)image;
-@end
 
 void cl_writeToPathWithColorCase(NSString *path, int colorCase){
 	NSDictionary *infoPlist;
@@ -120,9 +90,8 @@ void cl_writeToPathWithColorCase(NSString *path, int colorCase){
 %ctor{
 	[[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"CLWinterboard" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification){
 		NSLog(@"[Colendar] Launching Winterboard...");
-		SBApplication *winterboard = [[%c(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:@"com.saurik.winterboard"];
+		SBApplication *winterboard = [[%c(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:@"com.saurik.WinterBoard"];
         [(SBUIController*)[%c(SBUIController) sharedInstance] activateApplicationAnimated:winterboard];
-	//	[[UIApplication sharedApplication] launchApplicationWithIdentifier:@"com.saurik.Winterboard" suspended:NO];
 	}];
 
 	[[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"CLChange" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification){

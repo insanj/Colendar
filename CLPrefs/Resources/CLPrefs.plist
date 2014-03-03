@@ -60,9 +60,9 @@
         </dict>
 
         <dict>
-            <key>cell</key> 		 <string>PSLinkCell</string>
+            <key>cell</key>          <string>PSLinkCell</string>
+            <key>cellClass</key>     <string>CLWinterBoardButtonCell</string>
             <key>label</key> 	    <string>Winterboard</string>
-            <key>icon</key> 		 <string>winterboard.png</string>
             <key>action</key> 	   <string>winterboard</string>
         </dict>
 
@@ -87,14 +87,10 @@
 			<key>action</key> 	   <string>k3levs</string>
 		</dict>
 
-		<dict>
-			<key>cell</key>				<string>PSGroupCell</string>
-		</dict>
-
         <dict>
             <key>cell</key>				<string>PSGroupCell</string>
             <key>footerAlignment</key> 	<integer>1</integer>
-            <key>footerText</key>		  <string>© 2014, source available online</string>
+            <key>footerText</key>		  <string>© 2014 Weiss and Kesler</string>
         </dict>
 
 	</array>

@@ -1,18 +1,31 @@
-#include <Preferences/PSListItemsController.h>
-#include <Preferences/PSListController.h>
-#include <Preferences/PSTableCell.h>
-#include <UIKit/UIActivityViewController.h>
-#include <Twitter/Twitter.h>
-#include <QuartzCore/QuartzCore.h>
 #include "substrate.h"
+#import "../Colendar.h"
 
 #define URL_ENCODE(string) [(NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)(string), NULL, CFSTR(":/=,!$& '()*+;[]@#?"), kCFStringEncodingUTF8) autorelease]
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
-@interface NSDistributedNotificationCenter : NSNotificationCenter
-@end
-
 static UIColor *clTintColor;
+static UIColor *cl_getTintColor(){
+	if (!clTintColor) {
+		NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
+		NSDictionary *labelToColor =  @{ @"Blue"  	: UIColorFromRGB(0x0000cc),
+										 @"Brown" 	: UIColorFromRGB(0xa5492a),
+										 @"Charcoal"  : UIColorFromRGB(0x36454f),
+										 @"Gold"	  : UIColorFromRGB(0xffd700),
+										 @"Gray"	  : UIColorFromRGB(0x808080),
+										 @"Green"	 : UIColorFromRGB(0x27d827),
+										 @"Orange"	: UIColorFromRGB(0xffa500),
+										 @"Pink"	  : UIColorFromRGB(0xff748c),
+										 @"Purple"	: UIColorFromRGB(0x800080),
+										 @"Red" 	  : UIColorFromRGB(0xff0000),
+										 @"White" 	: UIColorFromRGB(0xffffff),
+										 @"Yellow"	: UIColorFromRGB(0xffff3b) };
+
+		clTintColor = [[labelToColor allValues] objectAtIndex:[[settings objectForKey:@"globalTint"] intValue]];
+	}
+
+	return clTintColor;
+}
 
 @interface CLPrefsListController : PSListController
 @end
@@ -27,38 +40,21 @@ static UIColor *clTintColor;
 }
 
 - (void)loadView{
-	NSDictionary *labelToColor = @{ @"Blue"  	: UIColorFromRGB(0x0000cc),
-									@"Brown" 	: UIColorFromRGB(0xa5492a),
-									@"Charcoal"  : UIColorFromRGB(0x36454f),
-									@"Gold"	  : UIColorFromRGB(0xffd700),
-									@"Gray"	  : UIColorFromRGB(0x808080),
-									@"Green"	 : UIColorFromRGB(0x27d827),
-									@"Orange"	: UIColorFromRGB(0xffa500),
-									@"Pink"	  : UIColorFromRGB(0xff748c),
-									@"Purple"	: UIColorFromRGB(0x800080),
-									@"Red" 	  : UIColorFromRGB(0xff0000),
-									@"White" 	: UIColorFromRGB(0xffffff),
-									@"Yellow"	: UIColorFromRGB(0xffff3b) };
-
-	NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
-	clTintColor = [[labelToColor allValues] objectAtIndex:[[settings objectForKey:@"globalTint"] intValue]];
-
 	[super loadView];
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareTapped:)];
 }
 
 - (void)viewDidLoad{
 	[super viewDidLoad];
-	[UISwitch appearanceWhenContainedIn:self.class, nil].onTintColor = clTintColor;
-	[UISegmentedControl appearanceWhenContainedIn:self.class, nil].tintColor = clTintColor;
+	[UISwitch appearanceWhenContainedIn:self.class, nil].onTintColor = cl_getTintColor();
+	[UISegmentedControl appearanceWhenContainedIn:self.class, nil].tintColor = cl_getTintColor();
 }
-
 
 - (void)viewWillAppear:(BOOL)animated{
     [(UITableView *)self.view deselectRowAtIndexPath:((UITableView *)self.view).indexPathForSelectedRow animated:YES];
 
-	self.view.tintColor = clTintColor;
-    self.navigationController.navigationBar.tintColor = clTintColor;
+	self.view.tintColor = cl_getTintColor();
+    self.navigationController.navigationBar.tintColor = cl_getTintColor();
 
 	NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
 
@@ -80,7 +76,7 @@ static UIColor *clTintColor;
 	NSString *text = @"Making a beautiful, colorful Calendar has never been easier than with Colendar by @insanj and @k3levs!";
 	NSURL *url = [NSURL URLWithString:@"http://github.com/insanj/colendar"];
 
-	if(%c(UIActivityViewController)) {
+	if (%c(UIActivityViewController)) {
 		UIActivityViewController *viewController = [[[%c(UIActivityViewController) alloc] initWithActivityItems:[NSArray arrayWithObjects:text, url, nil] applicationActivities:nil] autorelease];
 		[self.navigationController presentViewController:viewController animated:YES completion:NULL];
 	}
@@ -139,18 +135,51 @@ static UIColor *clTintColor;
 
 @end
 
+@interface CLWinterBoardButtonCell : PSTableCell
+@end
+
+@implementation CLWinterBoardButtonCell
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier specifier:(PSSpecifier *)specifier {
+
+	UIImageView *winterboardView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30.0, 30.0)];
+	[winterboardView setImage:[UIImage imageWithContentsOfFile:@"/Applications/WinterBoard.app/icon.png"]];
+	winterboardView.layer.masksToBounds = YES;
+	winterboardView.layer.cornerRadius = 7.0;
+
+	UIGraphicsBeginImageContextWithOptions(winterboardView.bounds.size, NO, 0.0);
+	[winterboardView.layer renderInContext:UIGraphicsGetCurrentContext()];
+	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+
+	[specifier setProperty:image forKey:@"iconImage"];
+	CLWinterBoardButtonCell *cell = [super initWithStyle:style reuseIdentifier:reuseIdentifier specifier:specifier];
+
+	/*SBApplication *winterboard = [[%c(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:@"com.saurik.WinterBoard"];
+	SBApplicationIcon *winterboardIcon = [[%c(SBApplicationIcon) alloc] initWithApplication:winterboard];
+	id winterBoardImage = [winterboardIcon generateIconImage:1];*/
+
+	//UIImage *image = [[%c(NSWorkspace) sharedWorkspace] iconForFile:[[%c(NSWorkspace) sharedWorkspace] absolutePathForAppBundleWithIdentifier:@"com.saurik.WinterBoard"]];
+
+//	UIImage *image = [[[[%c(SBIconViewMap) homescreenMap] iconModel] iconForDisplayIdentifier:@"com.saurik.WinterBoard"] getIconImage:0];
+
+//	SBApplication *winterboard = [[%c(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:@"com.saurik.WinterBoard"];
+//	UIImage *image = [UIImage imageWithContentsOfFile:[winterboard pathForIcon]];
+
+//	[cell.imageView setImage:image];
+
+	return cell;
+}
+
+@end
+
 @interface CLListItemsController : PSListItemsController
 @end
 
 @implementation CLListItemsController
 
 - (void)viewWillAppear:(BOOL)animated{
-	self.navigationController.navigationBar.tintColor = clTintColor;
-}
-
-- (void)viewDidAppear:(BOOL)animated{
-	[super viewDidAppear:animated];
-	[(UITableView *)self.view reloadData];
+	self.navigationController.navigationBar.tintColor = cl_getTintColor();
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -161,7 +190,7 @@ static UIColor *clTintColor;
 - (id)tableView:(id)arg1 cellForRowAtIndexPath:(id)arg2{
 	PSTableCell *cell = [super tableView:arg1 cellForRowAtIndexPath:arg2];
 
-	NSDictionary *labelToColor = @{ @"Blue"  	: UIColorFromRGB(0x0000cc),
+	NSDictionary *labelToColor =  @{ @"Blue"  	: UIColorFromRGB(0x0000cc),
 									@"Brown" 	: UIColorFromRGB(0xa5492a),
 									@"Charcoal"  : UIColorFromRGB(0x36454f),
 									@"Gold"	  : UIColorFromRGB(0xffd700),
