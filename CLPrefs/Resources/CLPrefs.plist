@@ -31,6 +31,22 @@
 			    <string>Red</string>
 			    <string>White</string>
 			    <string>Yellow</string>
+			    <string>Silver</string>
+			    <string>Turkoise</string>
+			    <string>Baby Blue</string>
+			    <string>Beige</string>
+			    <string>Cream</string>
+			    <string>Light Blue</string>
+			    <string>Light Green</string>
+			    <string>Maroon</string>
+			    <string>Navy Blue</string>
+			    <string>Neon Blue</string>
+			    <string>Neon Green</string>
+			    <string>Neon Orange</string>
+			    <string>Neon Pink</string>
+			    <string>Neon Purple</string>
+			    <string>Neon Red</string>
+			    <string>Neon Yellow</string>
 			</array>
 
 			<key>validValues</key> <array>
@@ -46,6 +62,21 @@
                 <integer>9</integer>
                 <integer>10</integer>
                 <integer>11</integer>
+                // <integer>12</integer>
+                // <integer>13</integer>
+                // <integer>14</integer>
+                // <integer>15</integer>
+                // <integer>16</integer>
+                // <integer>17</integer>
+                // <integer>18</integer>
+                // <integer>19</integer>
+                // <integer>20</integer>
+                // <integer>21</integer>
+                // <integer>22</integer>
+                // <integer>23</integer>
+                // <integer>24</integer>
+                // <integer>25</integer>
+                // <integer>26</integer>
 			</array>
 		</dict>
 
@@ -62,7 +93,7 @@
         <dict>
             <key>cell</key>          <string>PSLinkCell</string>
             <key>cellClass</key>     <string>CLWinterBoardButtonCell</string>
-            <key>label</key> 	    <string>Open WinterBoard</string>
+            <key>label</key> 	    <string>Open Winterboard to Apply</string>
             <key>action</key> 	   <string>winterboard</string>
         </dict>
 
