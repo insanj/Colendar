@@ -8,6 +8,7 @@
 
 #define URL_ENCODE(string) [(NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)(string), NULL, CFSTR(":/=,!$& '()*+;[]@#?"), kCFStringEncodingUTF8) autorelease]
 #define CLTintColor [UIColor colorWithRed:40/255.0f green:160/255.0f blue:244/255.0f alpha:1.0f]
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 @interface NSDistributedNotificationCenter : NSNotificationCenter
 @end
@@ -33,25 +34,26 @@
 
 - (id)tableView:(id)arg1 cellForRowAtIndexPath:(id)arg2{
 	PSTableCell *cell = [super tableView:arg1 cellForRowAtIndexPath:arg2];
-	NSDictionary *labelToColor = @{ @"Blue"  	: [UIColor blueColor],
-									@"Brown" 	: [UIColor brownColor],
-									@"Charcoal"  : [UIColor blackColor],
-									@"Gold"	  : [UIColor yellowColor], //!
-									@"Gray"	  : [UIColor grayColor],
-									@"Green"	 : [UIColor greenColor],
-									@"Orange"	: [UIColor orangeColor],
-									@"Pink"	  : [UIColor magentaColor], //!
-									@"Purple"	: [UIColor purpleColor],
-									@"Red" 	  : [UIColor redColor],
-									@"White" 	: [UIColor whiteColor],
-									@"Yellow"	: [UIColor yellowColor] };
+
+	NSDictionary *labelToColor = @{ @"Blue"  	: UIColorFromRGB(0x0000cc),
+									@"Brown" 	: UIColorFromRGB(0xa5492a),
+									@"Charcoal"  : UIColorFromRGB(0x36454f),
+									@"Gold"	  : UIColorFromRGB(0xffd700),
+									@"Gray"	  : UIColorFromRGB(0x808080),
+									@"Green"	 : UIColorFromRGB(0x27d827),
+									@"Orange"	: UIColorFromRGB(0xffa500),
+									@"Pink"	  : UIColorFromRGB(0xff748c),
+									@"Purple"	: UIColorFromRGB(0x800080),
+									@"Red" 	  : UIColorFromRGB(0xff0000),
+									@"White" 	: UIColorFromRGB(0xffffff),
+									@"Yellow"	: UIColorFromRGB(0xffff3b) };
 
 	UIView *colorThumb = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 20.0, 20.0)] autorelease];
 	colorThumb.backgroundColor = [labelToColor objectForKey:[[cell titleLabel] text]];
 	colorThumb.layer.masksToBounds = YES;
 	colorThumb.layer.cornerRadius = 5.0;
-	colorThumb.layer.borderColor = [UIColor darkGrayColor].CGColor;
-	colorThumb.layer.borderWidth = 1.0;
+	colorThumb.layer.borderColor = [UIColor lightGrayColor].CGColor;
+	colorThumb.layer.borderWidth = 0.5;
 
 	UIGraphicsBeginImageContextWithOptions(colorThumb.bounds.size, NO, 0.0);
     [colorThumb.layer renderInContext:UIGraphicsGetCurrentContext()];
@@ -97,7 +99,7 @@
 
 	if (![settings objectForKey:@"globalColor"]) {
 		PSSpecifier *colorSpecifier = [self specifierForID:@"GlobalColor"];
-		[self setPreferenceValue:@(1.0) specifier:colorSpecifier];
+		[self setPreferenceValue:@(0.0) specifier:colorSpecifier];
 		[self reloadSpecifier:colorSpecifier];
 	}
 }
@@ -131,7 +133,7 @@
 }
 
 - (void)respring {
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"CLRespring" object:nil];
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"CLChange" object:nil];
 }
 
 - (void)winterboard {

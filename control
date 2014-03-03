@@ -1,6 +1,6 @@
 Package: com.insanj.colendar
 Name: Colendar
-Depends: mobilesubstrate
+Depends: mobilesubstrate, winterboard
 Version: 0.1
 Architecture: iphoneos-arm
 Description: Change the color of your Calendar icon.

@@ -60,15 +60,17 @@
         </dict>
 
         <dict>
-            <key>cell</key> 		 <string>PSButtonCell</string>
+            <key>cell</key> 		 <string>PSLinkCell</string>
             <key>label</key> 	    <string>Winterboard</string>
             <key>icon</key> 		 <string>winterboard.png</string>
             <key>action</key> 	   <string>winterboard</string>
         </dict>
 
 		<dict>
-			<key>cell</key>	      <string>PSGroupCell</string>
-			<key>label</key>         <string>Credits</string>
+			<key>cell</key>	          <string>PSGroupCell</string>
+			<key>label</key>             <string>Credits</string>
+            <key>footerAlignment</key>   <integer>1</integer>
+            <key>footerText</key>		<string>Thanks for using Colendar (1.0 beta 1) by Julian Weiss and Jason Kesler. Please send all feedback directly from Cydia.</string>
 		</dict>
 
         <dict>
@@ -87,8 +89,6 @@
 
 		<dict>
 			<key>cell</key>				<string>PSGroupCell</string>
-			<key>footerAlignment</key> 	<integer>1</integer>
-			<key>footerText</key>		<string>Thanks for using Colendar (1.0 beta 1) by Julian Weiss and Jason Kesler. Please send all feedback directly from Cydia.</string>
 		</dict>
 
         <dict>
