@@ -7,34 +7,26 @@
 #include "substrate.h"
 
 #define URL_ENCODE(string) [(NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)(string), NULL, CFSTR(":/=,!$& '()*+;[]@#?"), kCFStringEncodingUTF8) autorelease]
-#define CLTintColor [UIColor colorWithRed:40/255.0f green:160/255.0f blue:244/255.0f alpha:1.0f]
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 @interface NSDistributedNotificationCenter : NSNotificationCenter
 @end
 
-@interface CLListItemsController : PSListItemsController
+static UIColor *clTintColor;
+
+@interface CLPrefsListController : PSListController
 @end
 
-@implementation CLListItemsController
+@implementation CLPrefsListController
 
-- (void)viewWillAppear:(BOOL)animated{
-    self.navigationController.navigationBar.tintColor = CLTintColor;
+- (NSArray *)specifiers{
+	if(!_specifiers)
+		_specifiers = [[self loadSpecifiersFromPlistName:@"CLPrefs" target:self] retain];
+
+	return _specifiers;
 }
 
-- (void)viewDidAppear:(BOOL)animated{
-	[super viewDidAppear:animated];
-	[(UITableView *)self.view reloadData];
-}
-
-- (void)viewWillDisappear:(BOOL)animated{
-	[super viewWillDisappear:animated];
-	self.navigationController.navigationBar.tintColor = nil;
-}
-
-- (id)tableView:(id)arg1 cellForRowAtIndexPath:(id)arg2{
-	PSTableCell *cell = [super tableView:arg1 cellForRowAtIndexPath:arg2];
-
+- (void)loadView{
 	NSDictionary *labelToColor = @{ @"Blue"  	: UIColorFromRGB(0x0000cc),
 									@"Brown" 	: UIColorFromRGB(0xa5492a),
 									@"Charcoal"  : UIColorFromRGB(0x36454f),
@@ -48,52 +40,25 @@
 									@"White" 	: UIColorFromRGB(0xffffff),
 									@"Yellow"	: UIColorFromRGB(0xffff3b) };
 
-	UIView *colorThumb = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 20.0, 20.0)] autorelease];
-	colorThumb.backgroundColor = [labelToColor objectForKey:[[cell titleLabel] text]];
-	colorThumb.layer.masksToBounds = YES;
-	colorThumb.layer.cornerRadius = 5.0;
-	colorThumb.layer.borderColor = [UIColor lightGrayColor].CGColor;
-	colorThumb.layer.borderWidth = 0.5;
+	NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
+	clTintColor = [[labelToColor allValues] objectAtIndex:[[settings objectForKey:@"globalTint"] intValue]];
 
-	UIGraphicsBeginImageContextWithOptions(colorThumb.bounds.size, NO, 0.0);
-    [colorThumb.layer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-
-	[cell.imageView setImage:image];
-	return cell;
-}
-
-@end
-
-@interface CLPrefsListController : PSListController
-@end
-
-@implementation CLPrefsListController
-
-- (void)viewDidLoad{
-	[super viewDidLoad];
-	[UISwitch appearanceWhenContainedIn:self.class, nil].onTintColor = CLTintColor;
-	[UISegmentedControl appearanceWhenContainedIn:self.class, nil].tintColor = CLTintColor;
-}
-
-- (void)loadView{
 	[super loadView];
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareTapped:)];
 }
 
-- (NSArray *)specifiers{
-	if(!_specifiers)
-		_specifiers = [[self loadSpecifiersFromPlistName:@"CLPrefs" target:self] retain];
-
-	return _specifiers;
+- (void)viewDidLoad{
+	[super viewDidLoad];
+	[UISwitch appearanceWhenContainedIn:self.class, nil].onTintColor = clTintColor;
+	[UISegmentedControl appearanceWhenContainedIn:self.class, nil].tintColor = clTintColor;
 }
+
 
 - (void)viewWillAppear:(BOOL)animated{
     [(UITableView *)self.view deselectRowAtIndexPath:((UITableView *)self.view).indexPathForSelectedRow animated:YES];
 
-	self.view.tintColor = CLTintColor;
-    self.navigationController.navigationBar.tintColor = CLTintColor;
+	self.view.tintColor = clTintColor;
+    self.navigationController.navigationBar.tintColor = clTintColor;
 
 	NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
 
@@ -170,6 +135,59 @@
 
 	else
 		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:[@"https://mobile.twitter.com/" stringByAppendingString:user]]];
+}
+
+@end
+
+@interface CLListItemsController : PSListItemsController
+@end
+
+@implementation CLListItemsController
+
+- (void)viewWillAppear:(BOOL)animated{
+	self.navigationController.navigationBar.tintColor = clTintColor;
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+	[super viewDidAppear:animated];
+	[(UITableView *)self.view reloadData];
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+	[super viewWillDisappear:animated];
+	self.navigationController.navigationBar.tintColor = nil;
+}
+
+- (id)tableView:(id)arg1 cellForRowAtIndexPath:(id)arg2{
+	PSTableCell *cell = [super tableView:arg1 cellForRowAtIndexPath:arg2];
+
+	NSDictionary *labelToColor = @{ @"Blue"  	: UIColorFromRGB(0x0000cc),
+									@"Brown" 	: UIColorFromRGB(0xa5492a),
+									@"Charcoal"  : UIColorFromRGB(0x36454f),
+									@"Gold"	  : UIColorFromRGB(0xffd700),
+									@"Gray"	  : UIColorFromRGB(0x808080),
+									@"Green"	 : UIColorFromRGB(0x27d827),
+									@"Orange"	: UIColorFromRGB(0xffa500),
+									@"Pink"	  : UIColorFromRGB(0xff748c),
+									@"Purple"	: UIColorFromRGB(0x800080),
+									@"Red" 	  : UIColorFromRGB(0xff0000),
+									@"White" 	: UIColorFromRGB(0xffffff),
+									@"Yellow"	: UIColorFromRGB(0xffff3b) };
+
+	UIView *colorThumb = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 20.0, 20.0)] autorelease];
+	colorThumb.backgroundColor = [labelToColor objectForKey:[[cell titleLabel] text]];
+	colorThumb.layer.masksToBounds = YES;
+	colorThumb.layer.cornerRadius = 5.0;
+	colorThumb.layer.borderColor = [UIColor lightGrayColor].CGColor;
+	colorThumb.layer.borderWidth = 0.5;
+
+	UIGraphicsBeginImageContextWithOptions(colorThumb.bounds.size, NO, 0.0);
+	[colorThumb.layer renderInContext:UIGraphicsGetCurrentContext()];
+	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+
+	[cell.imageView setImage:image];
+	return cell;
 }
 
 @end
