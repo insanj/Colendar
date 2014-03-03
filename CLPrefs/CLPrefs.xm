@@ -157,6 +157,38 @@ static UIColor *cl_getTintColor() {
 
 @end
 
+@interface CLButtonShiftTopCell : PSTableCell
+@end
+
+@implementation CLButtonShiftTopCell
+
+- (void)layoutSubviews {
+	[super layoutSubviews];
+
+	CGRect doubleFrame = self.contentView.frame;
+	doubleFrame.size.height *= 2;
+	[self.imageView setCenter:CGPointMake(self.imageView.center.x, CGRectGetMidY(doubleFrame))];
+//  [self.imageView setCenter:CGPointMake(self.imageView.center.x, self.imageView.center.y + ceilf(CGRectGetHeight(self.imageView.frame) / 1.5))];
+}
+
+@end
+
+@interface CLButtonShiftBottomCell : PSTableCell
+@end
+
+@implementation CLButtonShiftBottomCell
+
+- (void)layoutSubviews {
+	[super layoutSubviews];
+	CGRect doubleFrame = self.contentView.frame;
+	doubleFrame.origin.y -= doubleFrame.size.height;
+	doubleFrame.size.height *= 2;
+	[self.imageView setCenter:CGPointMake(self.imageView.center.x, CGRectGetMidY(doubleFrame))];
+//  [self.imageView setCenter:CGPointMake(self.imageView.center.x, self.imageView.center.y - ceilf(CGRectGetHeight(self.imageView.frame) / 1.5))];
+}
+
+@end
+
 @interface CLListItemsController : PSListItemsController
 @end
 
