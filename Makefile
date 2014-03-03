@@ -1,6 +1,7 @@
 THEOS_PACKAGE_DIR_NAME = debs
 TARGET =: clang
 ARCHS = armv7 arm64
+
 include theos/makefiles/common.mk
 
 BUNDLE_NAME = Colendar
@@ -8,6 +9,7 @@ Colendar_FILES = Colendar.xm
 Colendar_INSTALL_PATH = /Library/PreferenceBundles
 Colendar_FRAMEWORKS = UIKit Twitter CoreGraphics MessageUI
 Colendar_PRIVATE_FRAMEWORKS = Preferences BulletinBoard
+Colendar_LDFLAGS = -lsubstrate
 
 include $(THEOS_MAKE_PATH)/bundle.mk
 

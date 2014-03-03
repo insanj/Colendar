@@ -21,13 +21,19 @@
     self.navigationController.navigationBar.tintColor = CLTintColor;
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+	[super viewDidAppear:animated];
+	[(UITableView *)self.view reloadData];
+}
+
 - (void)viewWillDisappear:(BOOL)animated{
 	[super viewWillDisappear:animated];
 	self.navigationController.navigationBar.tintColor = nil;
 }
 
-- (id)tableView:(id)arg1 cellForRowAtIndexPath:(id)arg2{
-	PSTableCell *cell = [super tableView:arg1 cellForRowAtIndexPath:arg2];
+
+UIImageView *newIconImageView(id self, SEL _cmd) {
+	NSLog(@"--- in new");
 	NSDictionary *labelToColor = @{ @"Blue"  	: [UIColor blueColor],
 									@"Brown" 	: [UIColor brownColor],
 									@"Charcoal"  : [UIColor blackColor],
@@ -41,12 +47,21 @@
 									@"White" 	: [UIColor whiteColor],
 									@"Yellow"	: [UIColor yellowColor] };
 
-	UIView *coloredIcon = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20.0, 20.0)];
-	coloredIcon.backgroundColor = [labelToColor objectForKey:[[cell titleLabel] text]];
+	UIImageView *coloredIcon = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 20.0, 20.0)] autorelease];
+	coloredIcon.backgroundColor = [labelToColor objectForKey:[[self titleLabel] text]];
 	coloredIcon.layer.masksToBounds = YES;
 	coloredIcon.layer.cornerRadius = 10.0;
-	cell.accessoryView = coloredIcon;
+	return coloredIcon;
+}
 
+- (id)tableView:(id)arg1 cellForRowAtIndexPath:(id)arg2{
+	PSTableCell *cell = [super tableView:arg1 cellForRowAtIndexPath:arg2];
+
+	UIImageView *(*oldIconImageView)(id self, SEL _cmd);
+	MSHookMessageEx(
+	    [cell class], @selector(iconImageView),
+	    (IMP) newIconImageView, (IMP *) &oldIconImageView
+	);
 
 	return cell;
 }
