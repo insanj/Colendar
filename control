@@ -1,0 +1,10 @@
+Package: com.insanj.colendar
+Name: Colendar
+Depends: mobilesubstrate, winterboard
+Version: 0.1
+Architecture: iphoneos-arm
+Description: Settings area for Colendar.
+Maintainer: Julian Weiss <insanjmail@gmail.com>
+Author: Julian (insanj) Weiss
+Section: Tweaks
+Icon: file:///Library/PreferenceBundles/Colendar.bundle/icon.png

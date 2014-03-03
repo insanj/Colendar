@@ -1,0 +1,10 @@
+{
+    entry = {
+		bundle = Colendar;
+		cell = PSLinkCell;
+		detail = CLPrefsListController;
+		icon = "icon.png";
+		isController = 1;
+		label = "Colendar";
+    };
+}
