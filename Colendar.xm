@@ -3,7 +3,7 @@
 #include <Preferences/PSTableCell.h>
 #include <UIKit/UIActivityViewController.h>
 #include <Twitter/Twitter.h>
-#import "substrate.h"
+#include "substrate.h"
 
 #define URL_ENCODE(string) [(NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)(string), NULL, CFSTR(":/=,!$& '()*+;[]@#?"), kCFStringEncodingUTF8) autorelease]
 #define CLTintColor [UIColor colorWithRed:40/255.0f green:160/255.0f blue:244/255.0f alpha:1.0f]
@@ -28,23 +28,25 @@
 
 - (id)tableView:(id)arg1 cellForRowAtIndexPath:(id)arg2{
 	PSTableCell *cell = [super tableView:arg1 cellForRowAtIndexPath:arg2];
-	if([cell isChecked]){
-		NSDictionary *labelToColor = @{ @"Blue"  	: [UIColor blueColor],
-										@"Brown" 	: [UIColor brownColor],
-										@"Charcoal"  : [UIColor blackColor],
-										@"Gold"	  : [UIColor yellowColor], //!
-										@"Gray"	  : [UIColor grayColor],
-										@"Green"	 : [UIColor greenColor],
-										@"Orange"	: [UIColor orangeColor],
-										@"Pink"	  : [UIColor magentaColor], //!
-										@"Purple"	: [UIColor purpleColor],
-										@"Red" 	  : [UIColor redColor],
-										@"White" 	: [UIColor whiteColor],
-										@"Yellow"	: [UIColor yellowColor] };
+	NSDictionary *labelToColor = @{ @"Blue"  	: [UIColor blueColor],
+									@"Brown" 	: [UIColor brownColor],
+									@"Charcoal"  : [UIColor blackColor],
+									@"Gold"	  : [UIColor yellowColor], //!
+									@"Gray"	  : [UIColor grayColor],
+									@"Green"	 : [UIColor greenColor],
+									@"Orange"	: [UIColor orangeColor],
+									@"Pink"	  : [UIColor magentaColor], //!
+									@"Purple"	: [UIColor purpleColor],
+									@"Red" 	  : [UIColor redColor],
+									@"White" 	: [UIColor whiteColor],
+									@"Yellow"	: [UIColor yellowColor] };
 
-		UIImageView *check = MSHookIvar<UIImageView *>(cell, "_checkedImageView");
-		check.backgroundColor = [labelToColor objectForKey:[cell titleLabel]];
-	}
+	UIView *coloredIcon = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20.0, 20.0)];
+	coloredIcon.backgroundColor = [labelToColor objectForKey:[[cell titleLabel] text]];
+	coloredIcon.layer.masksToBounds = YES;
+	coloredIcon.layer.cornerRadius = 10.0;
+	cell.accessoryView = coloredIcon;
+
 
 	return cell;
 }
