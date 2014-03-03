@@ -62,7 +62,7 @@
         <dict>
             <key>cell</key>          <string>PSLinkCell</string>
             <key>cellClass</key>     <string>CLWinterBoardButtonCell</string>
-            <key>label</key> 	    <string>Winterboard</string>
+            <key>label</key> 	    <string>Open Winterboard to Apply</string>
             <key>action</key> 	   <string>winterboard</string>
         </dict>
 
