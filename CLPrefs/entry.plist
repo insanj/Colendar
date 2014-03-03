@@ -1,6 +1,6 @@
 {
     entry = {
-		bundle = Colendar;
+		bundle = CLPrefs;
 		cell = PSLinkCell;
 		detail = CLPrefsListController;
 		icon = "icon.png";
