@@ -3,17 +3,14 @@
 <plist version="1.0">
 
 <dict>
-    <key>Label</key>
-    <string>com.insanj.colendar</string>
+	<key>Label</key>
+	<string>com.insanj.ColendarWriter</string>
 
-    <key>Program</key>
-    <string>/usr/bin/ColendarWriter</string>
+	<key>Program</key>
+	<string>/usr/libexec/ColendarWriter</string>
 
-    <key>KeepAlive</key>
-    <true/>
-
-    <key>Disabled</key>
-    <false/>
+	<key>RunAtLoad</key>
+	<true/>
 </dict>
 
 </plist>
