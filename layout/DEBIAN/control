@@ -1,7 +1,7 @@
 Package: com.insanj.colendar
 Name: Colendar
 Depends: mobilesubstrate, winterboard
-Version: 0.1
+Version: 1.0~beta
 Architecture: iphoneos-arm
 Description: Dynamically colorize your Calendar icon.
 Maintainer: Julian Weiss <insanjmail@gmail.com>

@@ -73,7 +73,7 @@ static UIColor *cl_getTintColor() {
 
 - (void)shareTapped:(UIBarButtonItem *)sender {
 	NSString *text = @"Making a beautiful, colorful Calendar has never been easier than with Colendar by @insanj and @k3levs!";
-	NSURL *url = [NSURL URLWithString:@"http://github.com/insanj/colendar"];
+	NSURL *url = [NSURL URLWithString:@"http://insanj.com/colendar"];
 
 	if (%c(UIActivityViewController)) {
 		UIActivityViewController *viewController = [[%c(UIActivityViewController) alloc] initWithActivityItems:[NSArray arrayWithObjects:text, url, nil] applicationActivities:nil];

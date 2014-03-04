@@ -139,6 +139,7 @@ int main(int argc, char * argv[]) {
 			}
 		}
 
+		[themePaths release];
 		NSLog(@"[Colendar] %@, attempting to respring...", fileError ? [NSString stringWithFormat:@"Failed to write theme file (%@)", fileError] : @"Successfully wrote theme file");
 		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"CLRespring" object:nil];
 	}];
