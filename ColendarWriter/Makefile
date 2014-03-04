@@ -9,6 +9,8 @@ ColendarWriter_INSTALL_PATH = /usr/libexec/
 
 include $(THEOS_MAKE_PATH)/tool.mk
 
-after-stage::
+internal-stage::
 	$(ECHO_NOTHING)mkdir -p $(THEOS_STAGING_DIR)/DEBIAN$(ECHO_END)
+	$(ECHO_NOTHING)cp preinst $(THEOS_STAGING_DIR)/DEBIAN$(ECHO_END)
 	$(ECHO_NOTHING)cp postinst $(THEOS_STAGING_DIR)/DEBIAN$(ECHO_END)
+	$(ECHO_NOTHING)cp postrm $(THEOS_STAGING_DIR)/DEBIAN$(ECHO_END)

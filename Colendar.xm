@@ -9,7 +9,9 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
 	if (buttonIndex != [alertView cancelButtonIndex]) {
 		NSLog(@"[Colendar] Respringing to allow LaunchDaemon to write properly...");
-		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"CLWrite" object:nil];
+
+		NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
+		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"CLWrite" object:nil userInfo:@{ @"caseNumber" : [settings objectForKey:@"globalColor"] }];
 	}
 }
 
