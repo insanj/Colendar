@@ -6,10 +6,16 @@
 static UIColor *clTintColor;
 static void cl_setTintColor() {
 	NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
-	NSArray *colors =  @[ UIColorFromRGB(0x0000cc), UIColorFromRGB(0xa5492a), UIColorFromRGB(0x36454f),
-					  	UIColorFromRGB(0xffd700), UIColorFromRGB(0x808080), UIColorFromRGB(0x27d827),
-					  	UIColorFromRGB(0xffa500), UIColorFromRGB(0xff748c), UIColorFromRGB(0x800080),
-					  	UIColorFromRGB(0xff0000), UIColorFromRGB(0xffffff), UIColorFromRGB(0xffff3b) ];
+	NSArray *colors =  @[ UIColorFromRGB(0x89cff0), UIColorFromRGB(0xe4e4a1), UIColorFromRGB(0x0000cc),
+						  UIColorFromRGB(0xa5492a), UIColorFromRGB(0x36454f), UIColorFromRGB(0xfffdd0),
+						  UIColorFromRGB(0xffd700), UIColorFromRGB(0x808080), UIColorFromRGB(0x27d827),
+						  UIColorFromRGB(0xadcae6), UIColorFromRGB(0x98db70), UIColorFromRGB(0x800000),
+						  UIColorFromRGB(0x000080), UIColorFromRGB(0x4d4dff), UIColorFromRGB(0x6fff00),
+						  UIColorFromRGB(0xff4105), UIColorFromRGB(0xff1cae), UIColorFromRGB(0x993cf3),
+						  UIColorFromRGB(0xfe0001), UIColorFromRGB(0xffff00), UIColorFromRGB(0xffa500),
+						  UIColorFromRGB(0xff748c), UIColorFromRGB(0x800080), UIColorFromRGB(0xff0000),
+						  UIColorFromRGB(0xc0c0c0), UIColorFromRGB(0x7098DB), UIColorFromRGB(0xffffff),
+						  UIColorFromRGB(0xffff3b) ];
 
 	clTintColor = [colors objectAtIndex:[[settings objectForKey:@"globalColor"] intValue]];
 }
@@ -188,18 +194,34 @@ static UIColor *cl_getTintColor() {
 - (id)tableView:(id)arg1 cellForRowAtIndexPath:(id)arg2{
 	PSTableCell *cell = [super tableView:arg1 cellForRowAtIndexPath:arg2];
 
-	NSDictionary *labelToColor =  @{ @"Blue"  	: UIColorFromRGB(0x0000cc),
-									@"Brown" 	: UIColorFromRGB(0xa5492a),
-									@"Charcoal"  : UIColorFromRGB(0x36454f),
-									@"Gold"	  : UIColorFromRGB(0xffd700),
-									@"Gray"	  : UIColorFromRGB(0x808080),
-									@"Green"	 : UIColorFromRGB(0x27d827),
-									@"Orange"	: UIColorFromRGB(0xffa500),
-									@"Pink"	  : UIColorFromRGB(0xff748c),
-									@"Purple"	: UIColorFromRGB(0x800080),
-									@"Red" 	  : UIColorFromRGB(0xff0000),
-									@"White" 	: UIColorFromRGB(0xffffff),
-									@"Yellow"	: UIColorFromRGB(0xffff3b) };
+	NSDictionary *labelToColor =  @{@"Baby Blue"  	: UIColorFromRGB(0x89cff0),
+									@"Beige"     	 : UIColorFromRGB(0xe4e4a1),
+									@"Blue"  	 	: UIColorFromRGB(0x0000cc),
+									@"Brown" 	 	: UIColorFromRGB(0xa5492a),
+									@"Charcoal" 	  : UIColorFromRGB(0x36454f),
+									@"Cream"    	  : UIColorFromRGB(0xfffdd0),
+									@"Gold"	 	  : UIColorFromRGB(0xffd700),
+									@"Gray"	 	  : UIColorFromRGB(0x808080),
+									@"Green"	 	 : UIColorFromRGB(0x27d827),
+									@"Light Blue" 	: UIColorFromRGB(0xadcae6),
+									@"Light Green"	: UIColorFromRGB(0x98db70),
+									@"Maroon"	 	: UIColorFromRGB(0x800000),
+									@"Navy"	   	: UIColorFromRGB(0x000080),
+									@"Neon Blue"  	: UIColorFromRGB(0x4d4dff),
+									@"Neon Green" 	: UIColorFromRGB(0x6fff00),
+									@"Neon Orange"	: UIColorFromRGB(0xff4105),
+									@"Neon Pink"  	: UIColorFromRGB(0xff1cae),
+									@"Neon Purple"	: UIColorFromRGB(0x993cf3),
+									@"Neon Red"	   : UIColorFromRGB(0xfe0001),
+									@"Neon Yellow"	: UIColorFromRGB(0xffff00),
+									@"Orange"		 : UIColorFromRGB(0xffa500),
+									@"Pink"		   : UIColorFromRGB(0xff748c),
+									@"Purple"	 	: UIColorFromRGB(0x800080),
+									@"Red" 	 	  : UIColorFromRGB(0xff0000),
+									@"Silver" 	    : UIColorFromRGB(0xc0c0c0),
+									@"Turquoise"      : UIColorFromRGB(0x7098DB),
+									@"White" 		 : UIColorFromRGB(0xffffff),
+									@"Yellow"		 : UIColorFromRGB(0xffff3b) };
 
 	UIView *colorThumb = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 20.0, 20.0)] autorelease];
 	colorThumb.backgroundColor = [labelToColor objectForKey:[[cell titleLabel] text]];

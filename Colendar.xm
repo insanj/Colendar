@@ -7,40 +7,88 @@ void cl_writeToPathWithColorCase(NSString *path, int colorCase){
 	NSDictionary *infoPlist;
 	switch(colorCase){
 		default:
-		case 0:	// blue
+		case 0:	// baby blue
+			infoPlist = CLDictWithHex(@"89cff0");
+			break;
+		case 1:	// beige
+			infoPlist = CLDictWithHex(@"e4e4a1");
+			break;
+		case 2:	// blue
 			infoPlist = CLDictWithHex(@"0000cc");
 			break;
-		case 1:	// brown
+		case 3:	// brown
 			infoPlist = CLDictWithHex(@"a5492a");
 			break;
-		case 2:	// charcoal
+		case 4:	// charcoal
 			infoPlist = CLDictWithHex(@"36454f");
 			break;
-		case 3:	// gold
+		case 5:	// cream
+			infoPlist = CLDictWithHex(@"fffdd0");
+			break;
+		case 6:	// gold
 			infoPlist = CLDictWithHex(@"ffd700");
 			break;
-		case 4:	// gray
+		case 7:	// gray
 			infoPlist = CLDictWithHex(@"808080");
 			break;
-		case 5:	// green
+		case 8:	// green
 			infoPlist = CLDictWithHex(@"27d827");
 			break;
-		case 6:	// orange
+		case 9:	// light blue
+			infoPlist = CLDictWithHex(@"adcae6");
+			break;
+		case 10:	// light green
+			infoPlist = CLDictWithHex(@"98db70");
+			break;
+		case 11:	// maroon
+			infoPlist = CLDictWithHex(@"800000");
+			break;
+		case 12:	// navy
+			infoPlist = CLDictWithHex(@"000080");
+			break;
+		case 13:	// neon blue
+			infoPlist = CLDictWithHex(@"4d4dff");
+			break;
+		case 14:	// neon green
+			infoPlist = CLDictWithHex(@"6fff00");
+			break;
+		case 15:	// neon orange
+			infoPlist = CLDictWithHex(@"ff4105");
+			break;
+		case 16:	// neon pink
+			infoPlist = CLDictWithHex(@"ff1cae");
+			break;
+		case 17:	// neon purple
+			infoPlist = CLDictWithHex(@"993cf3");
+			break;
+		case 18:	// neon red
+			infoPlist = CLDictWithHex(@"fe0001");
+			break;
+		case 19:	// neon yellow
+			infoPlist = CLDictWithHex(@"ffff00");
+			break;
+		case 20:	// orange
 			infoPlist = CLDictWithHex(@"ffa500");
 			break;
-		case 7:	// pink
+		case 21:	// pink
 			infoPlist = CLDictWithHex(@"ff748c");
 			break;
-		case 8:	// purple
+		case 22:	// purple
 			infoPlist = CLDictWithHex(@"800080");
 			break;
-		case 9:	// red
+		case 23:	// red
 			infoPlist = CLDictWithHex(@"ff0000");
 			break;
-		case 10:	// white
+		case 24:	// silver
+			infoPlist = CLDictWithHex(@"c0c0c0");
+			break;
+		case 25:	// turquoise
+			infoPlist = CLDictWithHex(@"7098DB");
+			break;
+		case 26:	// white
 			infoPlist = CLDictWithHex(@"ffffff");
 			break;
-		case 11:	// yellow
+		case 27:	// yellow
 			infoPlist = CLDictWithHex(@"ffff3b");
 			break;
 	}

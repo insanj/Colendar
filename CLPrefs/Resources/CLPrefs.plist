@@ -19,16 +19,32 @@
             <key>id</key> 		   <string>GlobalColor</string>
             <key>label</key> 		<string>Global Color</string>
             <key>validTitles</key> <array>
+                <string>Baby Blue</string>
+                <string>Beige</string>
                 <string>Blue</string>
 				<string>Brown</string>
     		    <string>Charcoal</string>
+                <string>Cream</string>
 			    <string>Gold</string>
 			    <string>Gray</string>
 			    <string>Green</string>
+                <string>Light Blue</string>
+                <string>Light Green</string>
+                <string>Maroon</string>
+                <string>Navy</string>
+                <string>Neon Blue</string>
+                <string>Neon Green</string>
+                <string>Neon Orange</string>
+                <string>Neon Pink</string>
+                <string>Neon Purple</string>
+                <string>Neon Red</string>
+                <string>Neon Yellow</string>
 			    <string>Orange</string>
 			    <string>Pink</string>
 			    <string>Purple</string>
 			    <string>Red</string>
+                <string>Silver</string>
+                <string>Turquoise</string>
 			    <string>White</string>
 			    <string>Yellow</string>
 			</array>
@@ -46,6 +62,22 @@
                 <integer>9</integer>
                 <integer>10</integer>
                 <integer>11</integer>
+                <integer>12</integer>
+                <integer>13</integer>
+                <integer>14</integer>
+                <integer>15</integer>
+                <integer>16</integer>
+                <integer>17</integer>
+                <integer>18</integer>
+                <integer>19</integer>
+                <integer>20</integer>
+                <integer>21</integer>
+                <integer>22</integer>
+                <integer>23</integer>
+                <integer>24</integer>
+                <integer>25</integer>
+                <integer>26</integer>
+                <integer>27</integer>
 			</array>
 		</dict>
 
@@ -70,7 +102,7 @@
 			<key>cell</key>	          <string>PSGroupCell</string>
 			<key>label</key>             <string>Credits</string>
             <key>footerAlignment</key>   <integer>1</integer>
-            <key>footerText</key>		<string>Thanks for using Colendar (1.0 beta 1) by Julian Weiss and Jason Kesler. Please send all feedback directly from Cydia.</string>
+            <key>footerText</key>		<string>Thanks for using Colendar (1.0) by Julian Weiss and Jason Kesler. Please send all feedback directly from Cydia.</string>
 		</dict>
 
         <dict>
