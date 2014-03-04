@@ -5,7 +5,13 @@
 #include <Twitter/Twitter.h>
 #include <QuartzCore/QuartzCore.h>
 
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
 @interface NSDistributedNotificationCenter : NSNotificationCenter
+@end
+
+@interface UIImage (Private)
++ (UIImage *)imageNamed:(NSString *)named inBundle:(NSBundle *)bundle;
 @end
 
 @interface UIApplication (Private)
@@ -76,3 +82,18 @@ typedef enum PSCellType {
 	PSButtonCell,
 	PSEditTextViewCell,
 } PSCellType;
+
+
+@interface SBCalendarApplicationIcon //: SBApplicationIcon
++ (id)countriesRequiringBlackDayOfWeek;
+- (id)initWithApplication:(id)application;
+- (void)_drawIconIntoCurrentContextWithImageSize:(CGSize)imageSize iconBase:(id)base;
+- (BOOL)canGenerateImageInBackgroundForFormat:(int)format;
+- (id)colorForDayOfWeek;
+- (void)dealloc;
+- (id)generateIconImage:(int)image;
+- (id)getUnmaskedIconImage:(int)image;
+- (BOOL)isBlackDayOfWeekRequiredForLocale:(id)locale;
+- (void)localeChanged;
+- (id)numberFont;
+@end
