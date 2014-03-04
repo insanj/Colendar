@@ -104,24 +104,33 @@ void cl_writeToPathWithColorCase(NSString *path, int colorCase){
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
 	if (buttonIndex != [alertView cancelButtonIndex]) {
+		NSLog(@"[Colendar / DEBUG]: Detected alertView tap, working on writing to file...");
 		NSError *fileError;
 		NSFileManager *fileManager = [NSFileManager defaultManager];
 
 		NSArray *stashFolders = [fileManager contentsOfDirectoryAtPath:@"/private/var/stash" error:&fileError];
 		NSMutableArray *themePaths = [[NSMutableArray alloc] init];
 
+		NSLog(@"[Colendar / DEBUG]: Dumped the contents of /private/var/stash to %@ (err %@), about to cycle...", stashFolders, fileError);
+
 		for (NSString *name in stashFolders) {
+			NSLog(@"[Colendar / DEBUG]: Checking out %@ to see if it's a Theme folder...", name);
+
 			if ([name rangeOfString:@"Themes."].location != NSNotFound) {
 				[themePaths addObject:[@"/private/var/stash/" stringByAppendingString:name]];
+				NSLog(@"[Colendar / DEBUG]: Matched %@ with Theme portion, added to %@...", name, themePaths);
 			}
 		}
 
 		for (int i = 0; i < themePaths.count; i++) {
 			NSString *fullPath = [themePaths[i] stringByAppendingString:@"Colendar.theme"];
+			NSLog(@"[Colendar / DEBUG]: Cycling through %@, the current pre-path is: %@....", themePaths, fullPath);
+
 			if ([fileManager fileExistsAtPath:fullPath] || i == themePaths.count-1) {
 				[fileManager createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:&fileError];
 				NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
 				cl_writeToPathWithColorCase([fullPath stringByAppendingString:@"/Info.plist"], [[settings objectForKey:@"globalColor"] intValue]);
+				NSLog(@"[Colendar / DEBUG]: If checked out, creating dir at %@ (err %@) for settings %@...", fullPath, fileError, settings);
 			}
 		}
 
