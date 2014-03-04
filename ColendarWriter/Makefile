@@ -6,5 +6,6 @@ include theos/makefiles/common.mk
 TOOL_NAME = ColendarWriter
 ColendarWriter_FILES = main.mm
 ColendarWriter_FRAMEWORKS = UIKit
+ColendarWriter_INSTALL_PATH = /usr/bin/
 
 include $(THEOS_MAKE_PATH)/tool.mk
