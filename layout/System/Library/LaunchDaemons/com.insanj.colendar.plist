@@ -4,7 +4,7 @@
 
 <dict>
     <key>Label</key>
-    <string>com.insanj.colendar.plist</string>
+    <string>com.insanj.colendar</string>
 
    <key>ProgramArguments</key>
     <array>
