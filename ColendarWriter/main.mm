@@ -135,8 +135,8 @@ int main(int argc, char * argv[]) {
 			}
 		}
 
-		NSLog(@"[Colendar] %@ respringing...", fileError ? [NSString stringWithFormat:@"Failed to write theme file (%@)", fileError] : @"Successfully wrote theme file");
-		[(SpringBoard *)[UIApplication sharedApplication] _relaunchSpringBoardNow];
+		NSLog(@"[Colendar] %@! respringing...", fileError ? [NSString stringWithFormat:@"Failed to write theme file (%@)", fileError] : @"Successfully wrote theme file");
+		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"CLRespring" object:nil];
 	}];
 
 	[[NSRunLoop currentRunLoop] run];

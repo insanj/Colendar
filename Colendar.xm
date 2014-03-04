@@ -20,4 +20,10 @@
 		NSLog(@"[Colendar] Prompting user to save and respring device (or not)...");
 		[[[[UIAlertView alloc] initWithTitle:@"Warning" message:@"Applying color settings will respring your device, are you sure you want to do so now?" delegate:[[CLAlertViewDelegate alloc] init] cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil] autorelease] show];
 	}];
+
+	[[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"CLRespring" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification){
+		NSLog(@"[Colendar] Received notification to respring...");
+		[(SpringBoard *)[UIApplication sharedApplication] _relaunchSpringBoardNow];
+	}];
+
 }
