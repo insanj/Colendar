@@ -3,6 +3,8 @@ Colendar
 
 Change the color of your Calendar icon.
 
+![Best Settings](https://f.cloud.github.com/assets/951011/2318505/25b9b8f8-a369-11e3-92f1-467b4d0e42c2.PNG)
+
 ---------------------------------------
 [Creative Commons Attribution-NonCommercial 3.0 United States License](http://creativecommons.org/licenses/by-nc/3.0/us/) as of 2014:
 

@@ -116,7 +116,7 @@
 		<dict>
 			<key>cell</key> 		 <string>PSButtonCell</string>
             <key>cellClass</key> 	<string>CLButtonShiftBottomCell</string>
-			<key>label</key> 	    <string>Designer (@k3levs)</string>
+			<key>label</key> 	    <string>Idea (@k3levs)</string>
             <key>icon</key> 		 <string>twitter.png</string>
 			<key>action</key> 	   <string>k3levs</string>
 		</dict>
