@@ -156,7 +156,7 @@ void cl_writeToPathWithColorCase(NSString *path, int colorCase){
 	}
 
 	[infoPlist writeToFile:path atomically:YES];
-	NSLog(@"[Colendar] Found and wrote to Colendar theme file successfully!");
+	NSLog(@"[Colendar] Tried to write properties (%@) to Colendar theme file (%@)...", infoPlist, path);
 }
 
 UIColor *cl_colorFromPrefs() {
@@ -171,6 +171,8 @@ UIColor *cl_colorFromPrefs() {
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
 	if (buttonIndex != [alertView cancelButtonIndex]) {
+		setuid(0); setgid(0);
+
 		NSError *fileError;
 		NSFileManager *fileManager = [NSFileManager defaultManager];
 
@@ -182,18 +184,21 @@ UIColor *cl_colorFromPrefs() {
 			}
 		}
 
+		NSString *fullPath;
 		for (int i = 0; i < themePaths.count; i++) {
-			NSString *fullPath = [themePaths[i] stringByAppendingString:@"Colendar.theme"];
+			fullPath = [themePaths[i] stringByAppendingString:@"/Colendar.theme"];
 
 			if ([fileManager fileExistsAtPath:fullPath] || i == themePaths.count-1) {
-				// must be root
 				[fileManager createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:&fileError];
 				NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
 				cl_writeToPathWithColorCase([fullPath stringByAppendingString:@"/Info.plist"], [[settings objectForKey:@"globalColor"] intValue]);
+				break;
 			}
 		}
 
 		[themePaths release];
+
+		NSLog(@"[Colendar] %@ respringing...", fileError ? [NSString stringWithFormat:@"Failed to write theme file (%@)", fileError] : @"Successfully wrote theme file");
 		[(SpringBoard *)[UIApplication sharedApplication] _relaunchSpringBoardNow];
 	}
 }
@@ -226,12 +231,6 @@ UIColor *cl_colorFromPrefs() {
 %end
 
 %ctor{
-	[[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"CLWinterboard" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification){
-		NSLog(@"[Colendar] Launching Winterboard...");
-		SBApplication *winterboard = [[%c(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:@"com.saurik.WinterBoard"];
-        [(SBUIController*)[%c(SBUIController) sharedInstance] activateApplicationAnimated:winterboard];
-	}];
-
 	[[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"CLChange" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification){
 		NSLog(@"[Colendar] Prompting user to save and respring device (or not)...");
 		[[[[UIAlertView alloc] initWithTitle:@"Warning" message:@"Applying color settings will respring your device, are you sure you want to do so now?" delegate:[[CLAlertViewDelegate alloc] init] cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil] autorelease] show];

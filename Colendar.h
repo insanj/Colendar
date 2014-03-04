@@ -30,9 +30,14 @@
 @end
 
 @interface SpringBoard : UIApplication
+- (void)applicationOpenURL:(NSURL *)url publicURLsOnly:(BOOL)only;
 - (BOOL)launchApplicationWithIdentifier:(id)identifier suspended:(BOOL)suspended;
 - (void)_applicationOpenURL:(id)url withApplication:(id)application sender:(id)sender publicURLsOnly:(BOOL)only animating:(BOOL)animating additionalActivationFlags:(id)flags activationHandler:(id)handler;
 - (void)_relaunchSpringBoardNow;
+@end
+
+@interface PreferencesAppController : UIApplication
+- (void)applicationOpenURL:(id)url;
 @end
 
 @interface SBUIController

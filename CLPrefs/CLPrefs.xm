@@ -97,7 +97,10 @@ static UIColor *cl_getTintColor() {
 }
 
 - (void)winterboard {
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"CLWinterboard" object:nil];
+	self.view.tintColor = nil;
+	self.navigationController.navigationBar.tintColor = nil;
+
+	[(PreferencesAppController *)[UIApplication sharedApplication] applicationOpenURL:[NSURL URLWithString:@"root=WinterBoard&path=Select%20Themes"]];
 }
 
 - (void)k3levs {

@@ -94,7 +94,7 @@
         <dict>
             <key>cell</key>          <string>PSLinkCell</string>
             <key>cellClass</key>     <string>CLWinterBoardButtonCell</string>
-            <key>label</key> 	    <string>Open WinterBoard</string>
+            <key>label</key> 	    <string>Select Themes</string>
             <key>action</key> 	   <string>winterboard</string>
         </dict>
 
@@ -116,7 +116,7 @@
 		<dict>
 			<key>cell</key> 		 <string>PSButtonCell</string>
             <key>cellClass</key> 	<string>CLButtonShiftBottomCell</string>
-			<key>label</key> 	    <string>Idea (@k3levs)</string>
+			<key>label</key> 	    <string>Idea &amp; Support (@k3levs)</string>
             <key>icon</key> 		 <string>twitter.png</string>
 			<key>action</key> 	   <string>k3levs</string>
 		</dict>
