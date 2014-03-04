@@ -11,14 +11,7 @@
 //		codesign -fs "Cydia Developer" /path/to/ColendarWriter.app/ColendarWriter
 //  From a blank, non-signed Certificate.
 
-#import <UIKit/UIKit.h>
-
-@interface NSDistributedNotificationCenter : NSNotificationCenter
-@end
-
-@interface SpringBoard : UIApplication
-- (void)_relaunchSpringBoardNow;
-@end
+#import "../Colendar.h"
 
 #define CLDictWithHex(a) @{@"CalendarIconDateStyle" : [NSString stringWithFormat:@"padding: 6px 2px; color: #%@; font-size: 36px;", a], @"CalendarIconDayStyle" :  [NSString stringWithFormat:@"padding: 0px 0px 0px 0px; color:#%@; font-size: 10px;", a] }
 
@@ -111,7 +104,7 @@ void cl_writeToPathWithColorCase(NSString *path, int colorCase){
 			infoPlist = CLDictWithHex(@"ffff3b");
 			break;
 	}
-	
+
 	[infoPlist writeToFile:path atomically:YES];
 	NSLog(@"[Colendar] Tried to write properties (%@) to Colendar theme file (%@)...", infoPlist, path);
 }
@@ -121,7 +114,7 @@ int main(int argc, char * argv[]) {
 	[[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"CLWrite" object:Nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification){
 		NSError *fileError;
 		NSFileManager *fileManager = [NSFileManager defaultManager];
-		
+
 		NSArray *stashFolders = [fileManager contentsOfDirectoryAtPath:@"/private/var/stash" error:&fileError];
 		NSMutableArray *themePaths = [[NSMutableArray alloc] init];
 		for (NSString *name in stashFolders) {
@@ -129,11 +122,11 @@ int main(int argc, char * argv[]) {
 				[themePaths addObject:[@"/private/var/stash/" stringByAppendingString:name]];
 			}
 		}
-		
+
 		NSString *fullPath;
 		for (int i = 0; i < themePaths.count; i++) {
 			fullPath = [themePaths[i] stringByAppendingString:@"/Colendar.theme"];
-			
+
 			if ([fileManager fileExistsAtPath:fullPath] || i == themePaths.count-1) {
 				[fileManager createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:&fileError];
 				NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
@@ -141,11 +134,11 @@ int main(int argc, char * argv[]) {
 				break;
 			}
 		}
-					
+
 		NSLog(@"[Colendar] %@ respringing...", fileError ? [NSString stringWithFormat:@"Failed to write theme file (%@)", fileError] : @"Successfully wrote theme file");
 		[(SpringBoard *)[UIApplication sharedApplication] _relaunchSpringBoardNow];
 	}];
-	
+
 	[[NSRunLoop currentRunLoop] run];
 	return 0;
 }

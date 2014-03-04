@@ -6,18 +6,11 @@
     <key>Label</key>
     <string>com.insanj.colendar</string>
 
-   <key>ProgramArguments</key>
-    <array>
-            <string>/Applications/Colendar.app/Colendar</string>
-            <string></string>
-            <string></string>
-    </array>
- 
- 	<key>OnDemand</key>
-	<false/>
+    <key>Program</key>
+    <string>/usr/bin/ColendarWriter</string>>
 
-    <key>StandardErrorPath</key>
-    <string>/dev/null</string>
+    <key>KeepAlive</key>
+    <true/>
 
     <key>Disabled</key>
     <false/>
