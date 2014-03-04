@@ -96,8 +96,18 @@
             <key>label</key> 	    <string>Open Winterboard to Apply</string>
             <key>action</key> 	   <string>winterboard</string>
         </dict>
+        
+        // HELP WITH THIS PLEASE, TRYING TO CREATE A FAQ
+        // <dict>
+			// <key>cell</key>  		<string>PSLinkListCell</string>
+			// <key>defaults</key>      <string>com.insanj.colendar</string>
+           // <key>detail</key> 	   <string>CLListItemsController</string>
+           // <key>key</key> 		  <string>FAQ</string>
+           // <key>id</key> 		   <string>FAQ</string>
+           // <key>label</key> 		<string>It Doesn't Work, Help!</string>
+           // <string>Please open Winterboard and apply "Colendar" for this tweak to work.</string>
 
-		<dict>
+	// <dict>
 			<key>cell</key>	          <string>PSGroupCell</string>
 			<key>label</key>             <string>Credits</string>
             <key>footerAlignment</key>   <integer>1</integer>
@@ -107,7 +117,7 @@
         <dict>
             <key>cell</key> 		 <string>PSButtonCell</string>
             <key>cellClass</key> 	<string>CLButtonShiftTopCell</string>
-            <key>label</key> 	    <string>Developer (@insanj)</string>
+            <key>label</key> 	    <string>Julian Weiss (@insanj)</string>
             <key>icon</key> 		 <string>twitter.png</string>
             <key>action</key> 	   <string>insanj</string>
         </dict>
@@ -115,7 +125,7 @@
 		<dict>
 			<key>cell</key> 		 <string>PSButtonCell</string>
             <key>cellClass</key> 	<string>CLButtonShiftBottomCell</string>
-			<key>label</key> 	    <string>Designer (@k3levs)</string>
+			<key>label</key> 	    <string>Jason Kesler (@k3levs)</string>
             <key>icon</key> 		 <string>twitter.png</string>
 			<key>action</key> 	   <string>k3levs</string>
 		</dict>
