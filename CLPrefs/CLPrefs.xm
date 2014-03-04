@@ -1,6 +1,6 @@
 #import "CLPrefs.h"
 
-#define URL_ENCODE(string) [(NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)(string), NULL, CFSTR(":/=,!$& '()*+;[]@#?"), kCFStringEncodingUTF8) autorelease]
+#define URL_ENCODE(string) (__bridge NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)(string), NULL, CFSTR(":/=,!$& '()*+;[]@#?"), kCFStringEncodingUTF8)
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 static UIColor *clTintColor;
@@ -32,7 +32,7 @@ static UIColor *cl_getTintColor() {
 
 - (NSArray *)specifiers{
 	if(!_specifiers)
-		_specifiers = [[self loadSpecifiersFromPlistName:@"CLPrefs" target:self] retain];
+		_specifiers = [self loadSpecifiersFromPlistName:@"CLPrefs" target:self];
 
 	return _specifiers;
 }
@@ -76,12 +76,12 @@ static UIColor *cl_getTintColor() {
 	NSURL *url = [NSURL URLWithString:@"http://github.com/insanj/colendar"];
 
 	if (%c(UIActivityViewController)) {
-		UIActivityViewController *viewController = [[[%c(UIActivityViewController) alloc] initWithActivityItems:[NSArray arrayWithObjects:text, url, nil] applicationActivities:nil] autorelease];
+		UIActivityViewController *viewController = [[%c(UIActivityViewController) alloc] initWithActivityItems:[NSArray arrayWithObjects:text, url, nil] applicationActivities:nil];
 		[self.navigationController presentViewController:viewController animated:YES completion:NULL];
 	}
 
 	else if (%c(TWTweetComposeViewController) && [TWTweetComposeViewController canSendTweet]) {
-		TWTweetComposeViewController *viewController = [[[TWTweetComposeViewController alloc] init] autorelease];
+		TWTweetComposeViewController *viewController = [[TWTweetComposeViewController alloc] init];
 		viewController.initialText = text;
 		[viewController addURL:url];
 		[self.navigationController presentViewController:viewController animated:YES completion:NULL];
@@ -137,7 +137,7 @@ static UIColor *cl_getTintColor() {
 @implementation CLWinterBoardButtonCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier specifier:(PSSpecifier *)specifier {
-	UIImageView *winterboardView = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30.0, 30.0)] autorelease];
+	UIImageView *winterboardView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30.0, 30.0)];
 	[winterboardView setImage:[UIImage imageWithContentsOfFile:@"/Applications/WinterBoard.app/icon.png"]];
 	winterboardView.layer.masksToBounds = YES;
 	winterboardView.layer.cornerRadius = 7.0;
@@ -148,7 +148,7 @@ static UIColor *cl_getTintColor() {
 	UIGraphicsEndImageContext();
 
 	[specifier setProperty:image forKey:@"iconImage"];
-	CLWinterBoardButtonCell *cell = [[super initWithStyle:style reuseIdentifier:reuseIdentifier specifier:specifier] autorelease];
+	CLWinterBoardButtonCell *cell = [super initWithStyle:style reuseIdentifier:reuseIdentifier specifier:specifier];
 
 	return cell;
 }
@@ -223,7 +223,7 @@ static UIColor *cl_getTintColor() {
 									@"White" 		 : UIColorFromRGB(0xffffff),
 									@"Yellow"		 : UIColorFromRGB(0xffff3b) };
 
-	UIView *colorThumb = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 20.0, 20.0)] autorelease];
+	UIView *colorThumb = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 20.0, 20.0)];
 	colorThumb.backgroundColor = [labelToColor objectForKey:[[cell titleLabel] text]];
 	colorThumb.layer.masksToBounds = YES;
 	colorThumb.layer.cornerRadius = 5.0;

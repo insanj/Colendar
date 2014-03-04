@@ -9,6 +9,7 @@ CLPrefs_INSTALL_PATH = /Library/PreferenceBundles
 CLPrefs_FRAMEWORKS = UIKit Twitter CoreGraphics QuartzCore
 CLPrefs_PRIVATE_FRAMEWORKS = Preferences BulletinBoard
 CLPrefs_LDFLAGS = -lsubstrate
+CLPrefs_CFLAGS = -fobjc-arc
 
 include $(THEOS_MAKE_PATH)/bundle.mk
 
