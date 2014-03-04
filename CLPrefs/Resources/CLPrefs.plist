@@ -31,22 +31,22 @@
 			    <string>Red</string>
 			    <string>White</string>
 			    <string>Yellow</string>
-			    <string>Silver</string>
-			    <string>Turkoise</string>
-			    <string>Baby Blue</string>
-			    <string>Beige</string>
-			    <string>Cream</string>
-			    <string>Light Blue</string>
-			    <string>Light Green</string>
-			    <string>Maroon</string>
-			    <string>Navy Blue</string>
-			    <string>Neon Blue</string>
-			    <string>Neon Green</string>
-			    <string>Neon Orange</string>
-			    <string>Neon Pink</string>
-			    <string>Neon Purple</string>
-			    <string>Neon Red</string>
-			    <string>Neon Yellow</string>
+			    // <string>Silver</string>
+			    // <string>Turqoise</string>
+			    // <string>Baby Blue</string>
+			    //  <string>Beige</string>
+			    // <string>Cream</string>
+			    // <string>Light Blue</string>
+			    // <string>Light Green</string>
+			    // <string>Maroon</string>
+			    // <string>Navy Blue</string>
+			    // <string>Neon Blue</string>
+			    // <string>Neon Green</string>
+			    // <string>Neon Orange</string>
+			    // <string>Neon Pink</string>
+			    // <string>Neon Purple</string>
+			    // <string>Neon Red</string>
+			    // <string>Neon Yellow</string>
 			</array>
 
 			<key>validValues</key> <array>
