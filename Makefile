@@ -11,7 +11,7 @@ Colendar_PRIVATE_FRAMEWORKS = Preferences
 
 include $(THEOS_MAKE_PATH)/tweak.mk
 SUBPROJECTS += CLPrefs
-SUBPROJECTS += colendarwriter
+SUBPROJECTS += ColendarWriter
 include $(THEOS_MAKE_PATH)/aggregate.mk
 
 internal-after-install::

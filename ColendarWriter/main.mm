@@ -109,36 +109,47 @@ void cl_writeToPathWithColorCase(NSString *path, int colorCase){
 	NSLog(@"[Colendar] Tried to write properties (%@) to Colendar theme file (%@)...", infoPlist, path);
 }
 
+NSError *cl_writeToFile(NSNotification *notification) {
+	NSLog(@"[Colendar] Received write request (%@), writing to theme file...", notification);
+
+	NSError *fileError;
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+
+	NSArray *stashFolders = [fileManager contentsOfDirectoryAtPath:@"/private/var/stash" error:&fileError];
+	NSMutableArray *themePaths = [[NSMutableArray alloc] init];
+	for (NSString *name in stashFolders) {
+		if ([name rangeOfString:@"Themes."].location != NSNotFound) {
+			[themePaths addObject:[@"/private/var/stash/" stringByAppendingString:name]];
+		}
+	}
+
+	NSLog(@"[Colendar] Detected possible Theme folders: %@", themePaths);
+
+	NSString *fullPath;
+	for (int i = 0; i < themePaths.count; i++) {
+		fullPath = [themePaths[i] stringByAppendingString:@"/Colendar.theme"];
+
+		if ([fileManager fileExistsAtPath:fullPath] || i == themePaths.count-1) {
+			[fileManager createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:&fileError];
+			NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
+			cl_writeToPathWithColorCase([fullPath stringByAppendingString:@"/Info.plist"], [[settings objectForKey:@"globalColor"] intValue]);
+			break;
+		}
+	}
+
+	NSLog(@"[Colendar] %@...", fileError ? [NSString stringWithFormat:@"Failed to write theme file (%@)", fileError] : @"Successfully wrote theme file");
+	return fileError;
+}
+
 int main(int argc, char * argv[]) {
-	NSLog(@"[Colendar] Loaded ColendarWriter LaunchDaemon, addding notification observer...");
-	[[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"CLWrite" object:Nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification){
-		NSError *fileError;
-		NSFileManager *fileManager = [NSFileManager defaultManager];
 
-		NSArray *stashFolders = [fileManager contentsOfDirectoryAtPath:@"/private/var/stash" error:&fileError];
-		NSMutableArray *themePaths = [[NSMutableArray alloc] init];
-		for (NSString *name in stashFolders) {
-			if ([name rangeOfString:@"Themes."].location != NSNotFound) {
-				[themePaths addObject:[@"/private/var/stash/" stringByAppendingString:name]];
-			}
-		}
-
-		NSString *fullPath;
-		for (int i = 0; i < themePaths.count; i++) {
-			fullPath = [themePaths[i] stringByAppendingString:@"/Colendar.theme"];
-
-			if ([fileManager fileExistsAtPath:fullPath] || i == themePaths.count-1) {
-				[fileManager createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:&fileError];
-				NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
-				cl_writeToPathWithColorCase([fullPath stringByAppendingString:@"/Info.plist"], [[settings objectForKey:@"globalColor"] intValue]);
-				break;
-			}
-		}
-
-		NSLog(@"[Colendar] %@! respringing...", fileError ? [NSString stringWithFormat:@"Failed to write theme file (%@)", fileError] : @"Successfully wrote theme file");
-		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"CLRespring" object:nil];
+	NSLog(@"[Colendar] Loaded ColendarWriter LaunchDaemon, writing to file and registering notification observer...");
+	cl_writeToFile(nil);
+	[[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"CLChange" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification){
+		cl_writeToFile(notification);
 	}];
 
 	[[NSRunLoop currentRunLoop] run];
+
 	return 0;
 }

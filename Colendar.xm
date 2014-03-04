@@ -8,8 +8,8 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
 	if (buttonIndex != [alertView cancelButtonIndex]) {
-		NSLog(@"[Colendar] Calling write function to LaunchDaemon...");
-		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"CLWrite" object:nil];
+		NSLog(@"[Colendar] Respringing to allow LaunchDaemon to write properly...");
+		[(SpringBoard *)[UIApplication sharedApplication] _relaunchSpringBoardNow];
 	}
 }
 
@@ -18,12 +18,6 @@
 %ctor{
 	[[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"CLChange" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification){
 		NSLog(@"[Colendar] Prompting user to save and respring device (or not)...");
-		[[[[UIAlertView alloc] initWithTitle:@"Warning" message:@"Applying color settings will respring your device, are you sure you want to do so now?" delegate:[[CLAlertViewDelegate alloc] init] cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil] autorelease] show];
+		[[[[UIAlertView alloc] initWithTitle:@"Color Applied" message:@"Although your selected Calendar color has been applied, you'll have to respring to see any changes. Would you like to do so now?" delegate:[[CLAlertViewDelegate alloc] init] cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil] autorelease] show];
 	}];
-
-	[[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"CLRespring" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification){
-		NSLog(@"[Colendar] Received notification to respring...");
-		[(SpringBoard *)[UIApplication sharedApplication] _relaunchSpringBoardNow];
-	}];
-
 }
