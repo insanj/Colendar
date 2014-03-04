@@ -1,7 +1,7 @@
 Colendar
 =======================
 
-Change the color of your Calendar icon.
+Dynamically colorize your Calendar icon.
 
 ![Best Settings](https://f.cloud.github.com/assets/951011/2318505/25b9b8f8-a369-11e3-92f1-467b4d0e42c2.PNG)
 

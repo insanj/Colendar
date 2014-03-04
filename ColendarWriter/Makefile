@@ -10,5 +10,9 @@ ColendarWriter_INSTALL_PATH = /usr/libexec/
 
 include $(THEOS_MAKE_PATH)/tool.mk
 
-after-install::
-	install.exec "chown root:wheel /System/Library/LaunchDaemons/com.insanj.ColendarWriter.plist; launchctl load -w /System/Library/LaunchDaemons/com.insanj.ColendarWriter.plist"
+ internal-stage::
+	$(ECHO_NOTHING)mkdir -p $(THEOS_STAGING_DIR)/DEBIAN$(ECHO_END)
+	$(ECHO_NOTHING)cp postinst.sh $(THEOS_STAGING_DIR)/DEBIAN$(ECHO_END)
+
+#after-install::
+#	install.exec "launchctl load -w /System/Library/LaunchDaemons/com.insanj.ColendarWriter.plist"
