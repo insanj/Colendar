@@ -3,8 +3,8 @@ Name: Colendar
 Depends: mobilesubstrate, winterboard
 Version: 0.1
 Architecture: iphoneos-arm
-Description: Change the color of your Calendar icon.
+Description: Dynamically colorize your Calendar icon.
 Maintainer: Julian Weiss <insanjmail@gmail.com>
 Author: Julian (insanj) Weiss
 Section: Tweaks
-Icon: file:///Library/PreferenceBundles/Colendar.bundle/icon.png
+Icon: file:///Library/PreferenceBundles/CLPrefs.bundle/icon.png
