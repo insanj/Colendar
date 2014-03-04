@@ -9,9 +9,6 @@
 	<key>Program</key>
 	<string>/usr/libexec/ColendarWriter</string>
 
-	<key>UserName</key>
-	<string>root</string>
-
 	<key>RunAtLoad</key>
 	<true/>
 </dict>
