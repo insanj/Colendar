@@ -101,4 +101,4 @@
 - (BOOL)isBlackDayOfWeekRequiredForLocale:(id)locale;
 - (void)localeChanged;
 - (id)numberFont;
-@end
+@end 

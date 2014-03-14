@@ -1,8 +1,6 @@
 #import "substrate.h"
 #import "Colendar.h"
 
-#define BUILDID @"been"
-
 /********************* Global Text Loading Functions *********************/
 
 static UIColor *cl_textColor;
@@ -107,9 +105,7 @@ static UIColor * cl_loadTextColor() {
 - (UIImage *)generateIconImage:(int)type {
 	NSLog(@"[Colendar] In -generateIconImage, grabbed color %@ from settings...", cl_loadTextColor());
 	UIImage *iconImage = %orig(type);
-	NSLog(@"[Colendar] Should've altered %@ to include %@ making it %@, now relinquishing...", %orig, cl_textColor, iconImage);
 	cl_textColor = nil;
-
 	return iconImage;
 }
 
@@ -117,74 +113,27 @@ static UIColor * cl_loadTextColor() {
 
 /********************* Calendar String Writing Hooks *********************/
 
-/*%hook NSString
+%hook NSString
 
-- (CGSize)drawAtPoint:(CGPoint)point forWidth:(CGFloat)width withFont:(UIFont *)font lineBreakMode:(UILineBreakMode)mode letterSpacing:(CGFloat)spacing includeEmoji:(BOOL)emoji {
-	NSLog(@"[Colendar-%@] First method log for %@:", BUILDID, self);
-	%log;
-	return %orig();
-}
-
-- (CGSize)_drawInRect:(CGRect)rect withFont:(UIFont *)font lineBreakMode:(UILineBreakMode)mode alignment:(UITextAlignment)alignment lineSpacing:(float)spacing includeEmoji:(BOOL)emoji truncationRect:(CGRect)truncation {
-	NSLog(@"[Colendar-%@] Second method log for %@:", BUILDID, self);
-	%log;
-	return %orig();
-}
-
-- (void)drawInRect:(CGRect)rect withAttributes:(NSDictionary *)attributes {
-	NSLog(@"[Colendar-%@] Third method log for %@:", BUILDID, self);
-	%log;
-	%orig();
-}
-
--(CGRect)boundingRectWithSize:(CGSize)size options:(int /*NSInteger)options attributes:(NSDictionary *)attributes context:(id)context {
-	NSLog(@"[Colendar-%@] Fourth method log for %@:", BUILDID, self);
-	%log;
-	return %orig();
-}
-
-- (CGSize)sizeWithFont:(UIFont *)font forWidth:(CGFloat)with lineBreakMode:(UILineBreakMode)mode letterSpacing:(CGFloat)spacing {
-	NSLog(@"[Colendar-%@] Fifth method log for %@:", BUILDID, self);
-	%log;
-	return %orig();
-}
-
-- (CGSize)sizeWithFont:(UIFont *)font {
-	NSLog(@"[Colendar-%@] Sixth method log for %@:", BUILDID, self);
-	%log;
-	return %orig();
-}
-
-
-- (void)drawInRect:(CGRect)arg1 withAttributes:(id)arg2 {
+- (CGSize)_legacy_drawAtPoint:(CGPoint)arg1 withFont:(id)arg2 {
 	if (cl_textColor) {
-		NSMutableDictionary *attributes = [[NSMutableDictionary alloc] initWithDictionary:arg2];
-		[attributes setObject:cl_loadTextColor() forKey:@"NSColor"];
-		NSLog(@"[Colendar] In -drawInRect hook, replacing %@ with %@ for %@...", arg2, attributes, self);
-		%orig(arg1, attributes);
+		if ([self intValue] <= 0) {
+			NSLog(@"[Colendar] Drawing day (%@) to point %@ based on color settings: %@.", self, NSStringFromCGPoint(arg1), cl_textColor);
+			[self drawAtPoint:CGPointMake(arg1.x, arg1.y) withAttributes:@{ @"NSFont" : arg2, @"NSColor" : cl_textColor}];
+		}
+
+		else {
+			NSLog(@"[Colendar] Drawing date (%@) to point %@ based on color settings: %@.", self, NSStringFromCGPoint(arg1), cl_textColor);
+			[self drawAtPoint:CGPointMake(arg1.x + 3.0, arg1.y + 3.0) withAttributes:@{ @"NSFont" : arg2, @"NSColor" : cl_textColor}];
+		}
+
+		return CGSizeZero;
 	}
 
 	else {
-		NSLog(@"[Colendar] In -drawInRect hook, did not detect stored color for %@...", self);
-		%orig(arg1, arg2);
+		NSLog(@"[Colendar] Not replacing _legacy_drawAtPoint with modern equivalent, due to %@...", cl_textColor);
+		return %orig(arg1, arg2);
 	}
-}
-
-
-%end*/
-
-%hook SBCalendarIconContentsView
-
--(id)initWithFrame:(CGRect)frame {
-	%log;
-	NSLog(@"asdfkjahsdlfkjahsdlkfjh");
-	return %orig();
-}
-
--(void)drawRect:(CGRect)rect {
-	%log;
-	NSLog(@"asdfkjahsdlfkjahsdlkfjh");
-	%orig();
 }
 
 %end
