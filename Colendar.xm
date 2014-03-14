@@ -95,19 +95,13 @@ static UIColor * cl_loadTextColor() {
 		}
 
 		else {
-			CGFloat width = cl_iconSize.width;
-			CGFloat leeway = 10.0;
-			CGSize dateSize = [self sizeWithFont:arg2 forWidth:(width+leeway) lineBreakMode:0];
-
-			CGFloat base = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 89 : 70);
-			[self drawAtPoint:CGPointMake((width + 1 - dateSize.width) / 2, (base - dateSize.height) / 2) withAttributes:@{ @"NSFont" : arg2, @"NSColor" : cl_loadTextColor()}];
-
-			/*
 			CGFloat origin = (cl_iconSize.width - [self sizeWithFont:arg2].width) / 2.0;
 			CGPoint centered = CGPointMake(origin, arg1.y);
 
 			NSLog(@"[Colendar] Drawing date (%@) to point %@.", self, NSStringFromCGPoint(centered));
-			*/
+			[self drawAtPoint:centered withAttributes:@{ @"NSFont" : arg2, @"NSColor" : cl_loadTextColor()}];
+
+			// For debugging, it appears to be perfect... %orig();
 		}
 
 		return CGSizeZero;
