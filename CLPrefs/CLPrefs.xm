@@ -100,7 +100,13 @@ static UIColor *cl_getTintColor() {
 	self.view.tintColor = nil;
 	self.navigationController.navigationBar.tintColor = nil;
 
-	[(PreferencesAppController *)[UIApplication sharedApplication] applicationOpenURL:[NSURL URLWithString:@"root=WinterBoard&path=Select%20Themes"]];
+	if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/PreferenceOrganizer.dylib"] || [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/PreferenceOrganizer2.dylib"]) {
+		[(PreferencesAppController *)[UIApplication sharedApplication] applicationOpenURL:[NSURL URLWithString:@"prefs:root=Cydia&path=WinterBoard"]];
+	}
+
+	else {
+		[(PreferencesAppController *)[UIApplication sharedApplication] applicationOpenURL:[NSURL URLWithString:@"prefs:root=WinterBoard"]];
+	}
 }
 
 - (void)k3levs {

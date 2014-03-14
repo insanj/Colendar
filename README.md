@@ -5,7 +5,7 @@ Dynamically colorize your Calendar icon.
 
 Colendar uses your color preferences (set in Settings) to alter the Calendar icon's string writing properties. Although it previously attempted to use LaunchDaemons, almost setuid, and WinterBoard, further investigative work (thanks to Aehmlo) proved this to be more effective. Idea entirely by Jason Kesler.
 
-![Modern Colendar Icon](https://github.com/insanj/Colendar/blob/master/Colendar.png)
+![Modern Colendar Icon](https://f.cloud.github.com/assets/951011/2425739/0e26a15c-abba-11e3-904f-b3f21c84b2f9.png)
 
 ---------------------------------------
 [Creative Commons Attribution-NonCommercial 3.0 United States License](http://creativecommons.org/licenses/by-nc/3.0/us/) as of 2014:

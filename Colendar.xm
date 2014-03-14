@@ -3,99 +3,69 @@
 
 /********************* Global Text Loading Functions *********************/
 
-static UIColor *cl_textColor;
+static CGSize cl_iconSize;
 
 static UIColor * cl_loadTextColor() {
 	NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
 	switch ([[settings objectForKey:@"globalColor"] intValue]) {
 		default:
 		case 0:	// baby blue
-			cl_textColor = UIColorFromRGB(0x89cff0);
-			break;
+			return UIColorFromRGB(0x89cff0);
 		case 1:	// beige
-			cl_textColor = UIColorFromRGB(0xe4e4a1);
-			break;
+			return UIColorFromRGB(0xe4e4a1);
 		case 2:	// blue
-			cl_textColor = UIColorFromRGB(0x0000cc);
-			break;
+			return UIColorFromRGB(0x0000cc);
 		case 3:	// brown
-			cl_textColor = UIColorFromRGB(0xa5492a);
-			break;
+			return UIColorFromRGB(0xa5492a);
 		case 4:	// charcoal
-			cl_textColor = UIColorFromRGB(0x36454f);
-			break;
+			return UIColorFromRGB(0x36454f);
 		case 5:	// cream
-			cl_textColor = UIColorFromRGB(0xfffdd0);
-			break;
+			return UIColorFromRGB(0xfffdd0);
 		case 6:	// gold
-			cl_textColor = UIColorFromRGB(0xffd700);
-			break;
+			return UIColorFromRGB(0xffd700);
 		case 7:	// gray
-			cl_textColor = UIColorFromRGB(0x808080);
-			break;
+			return UIColorFromRGB(0x808080);
 		case 8:	// green
-			cl_textColor = UIColorFromRGB(0x27d827);
-			break;
+			return UIColorFromRGB(0x27d827);
 		case 9:	// light blue
-			cl_textColor = UIColorFromRGB(0xadcae6);
-			break;
+			return UIColorFromRGB(0xadcae6);
 		case 10:	// light green
-			cl_textColor = UIColorFromRGB(0x98db70);
-			break;
+			return UIColorFromRGB(0x98db70);
 		case 11:	// maroon
-			cl_textColor = UIColorFromRGB(0x800000);
-			break;
+			return UIColorFromRGB(0x800000);
 		case 12:	// navy
-			cl_textColor = UIColorFromRGB(0x000080);
-			break;
+			return UIColorFromRGB(0x000080);
 		case 13:	// neon blue
-			cl_textColor = UIColorFromRGB(0x4d4dff);
-			break;
+			return UIColorFromRGB(0x4d4dff);
 		case 14:	// neon green
-			cl_textColor = UIColorFromRGB(0x6fff00);
-			break;
+			return UIColorFromRGB(0x6fff00);
 		case 15:	// neon orange
-			cl_textColor = UIColorFromRGB(0xff4105);
-			break;
+			return UIColorFromRGB(0xff4105);
 		case 16:	// neon pink
-			cl_textColor = UIColorFromRGB(0xff1cae);
-			break;
+			return UIColorFromRGB(0xff1cae);
 		case 17:	// neon purple
-			cl_textColor = UIColorFromRGB(0x993cf3);
-			break;
+			return UIColorFromRGB(0x993cf3);
 		case 18:	// neon red
-			cl_textColor = UIColorFromRGB(0xfe0001);
-			break;
+			return UIColorFromRGB(0xfe0001);
 		case 19:	// neon yellow
-			cl_textColor = UIColorFromRGB(0xffff00);
-			break;
+			return UIColorFromRGB(0xffff00);
 		case 20:	// orange
-			cl_textColor = UIColorFromRGB(0xffa500);
-			break;
+			return UIColorFromRGB(0xffa500);
 		case 21:	// pink
-			cl_textColor = UIColorFromRGB(0xff748c);
-			break;
+			return UIColorFromRGB(0xff748c);
 		case 22:	// purple
-			cl_textColor = UIColorFromRGB(0x800080);
-			break;
+			return UIColorFromRGB(0x800080);
 		case 23:	// red
-			cl_textColor = UIColorFromRGB(0xff0000);
-			break;
+			return UIColorFromRGB(0xff0000);
 		case 24:	// silver
-			cl_textColor = UIColorFromRGB(0xc0c0c0);
-			break;
+			return UIColorFromRGB(0xc0c0c0);
 		case 25:	// turquoise
-			cl_textColor = UIColorFromRGB(0x7098DB);
-			break;
+			return UIColorFromRGB(0x7098DB);
 		case 26:	// white
-			cl_textColor = UIColorFromRGB(0xffffff);
-			break;
+			return UIColorFromRGB(0xffffff);
 		case 27:	// yellow
-			cl_textColor = UIColorFromRGB(0xffff3b);
-			break;
+			return UIColorFromRGB(0xffff3b);
 	}
-
-	return cl_textColor;
 }
 
 /******************** Calendar Appplication Generation ********************/
@@ -103,9 +73,11 @@ static UIColor * cl_loadTextColor() {
 %hook SBCalendarApplicationIcon
 
 - (UIImage *)generateIconImage:(int)type {
-	NSLog(@"[Colendar] In -generateIconImage, grabbed color %@ from settings...", cl_loadTextColor());
+	cl_iconSize = [%orig(type) size];
+	NSLog(@"[Colendar] In -generateIconImage, assigned size to original's %@.", NSStringFromCGSize(cl_iconSize));
 	UIImage *iconImage = %orig(type);
-	cl_textColor = nil;
+	cl_iconSize = CGSizeZero;
+
 	return iconImage;
 }
 
@@ -116,22 +88,32 @@ static UIColor * cl_loadTextColor() {
 %hook NSString
 
 - (CGSize)_legacy_drawAtPoint:(CGPoint)arg1 withFont:(id)arg2 {
-	if (cl_textColor) {
+	if (!CGSizeEqualToSize(cl_iconSize, CGSizeZero)) {
 		if ([self intValue] <= 0) {
-			NSLog(@"[Colendar] Drawing day (%@) to point %@ based on color settings: %@.", self, NSStringFromCGPoint(arg1), cl_textColor);
-			[self drawAtPoint:CGPointMake(arg1.x, arg1.y) withAttributes:@{ @"NSFont" : arg2, @"NSColor" : cl_textColor}];
+			NSLog(@"[Colendar] Drawing day (%@) to point %@.", self, NSStringFromCGPoint(arg1));
+			[self drawAtPoint:arg1 withAttributes:@{ @"NSFont" : arg2, @"NSColor" : cl_loadTextColor()}];
 		}
 
 		else {
-			NSLog(@"[Colendar] Drawing date (%@) to point %@ based on color settings: %@.", self, NSStringFromCGPoint(arg1), cl_textColor);
-			[self drawAtPoint:CGPointMake(arg1.x + 3.0, arg1.y + 3.0) withAttributes:@{ @"NSFont" : arg2, @"NSColor" : cl_textColor}];
+			CGFloat width = cl_iconSize.width;
+			CGFloat leeway = 10.0;
+			CGSize dateSize = [self sizeWithFont:arg2 forWidth:(width+leeway) lineBreakMode:0];
+
+			CGFloat base = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 89 : 70);
+			[self drawAtPoint:CGPointMake((width + 1 - dateSize.width) / 2, (base - dateSize.height) / 2) withAttributes:@{ @"NSFont" : arg2, @"NSColor" : cl_loadTextColor()}];
+
+			/*
+			CGFloat origin = (cl_iconSize.width - [self sizeWithFont:arg2].width) / 2.0;
+			CGPoint centered = CGPointMake(origin, arg1.y);
+
+			NSLog(@"[Colendar] Drawing date (%@) to point %@.", self, NSStringFromCGPoint(centered));
+			*/
 		}
 
 		return CGSizeZero;
 	}
 
 	else {
-		NSLog(@"[Colendar] Not replacing _legacy_drawAtPoint with modern equivalent, due to %@...", cl_textColor);
 		return %orig(arg1, arg2);
 	}
 }
