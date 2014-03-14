@@ -6,7 +6,7 @@ include theos/makefiles/common.mk
 
 TWEAK_NAME = Colendar
 Colendar_FILES = Colendar.xm
-Colendar_FRAMEWORKS = UIKit
+Colendar_FRAMEWORKS = UIKit CoreGraphics
 Colendar_PRIVATE_FRAMEWORKS = Preferences
 
 include $(THEOS_MAKE_PATH)/tweak.mk

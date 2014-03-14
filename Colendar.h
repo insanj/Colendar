@@ -1,9 +1,10 @@
 #include <Preferences/PSListItemsController.h>
 #include <Preferences/PSListController.h>
 #include <Preferences/PSTableCell.h>
-#include <UIKit/UIActivityViewController.h>
-#include <Twitter/Twitter.h>
-#include <QuartzCore/QuartzCore.h>
+#import <UIKit/UIActivityViewController.h>
+#import <Twitter/Twitter.h>
+#import <QuartzCore/QuartzCore.h>
+#import <CoreGraphics/CoreGraphics.h>
 
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
@@ -100,4 +101,12 @@
 - (BOOL)isBlackDayOfWeekRequiredForLocale:(id)locale;
 - (void)localeChanged;
 - (id)numberFont;
+@end
+
+@interface NSString (Private)
+- (CGSize)drawAtPoint:(CGPoint)point forWidth:(float)width withFont:(id)font lineBreakMode:(int)mode letterSpacing:(float)spacing includeEmoji:(BOOL)emoji;
+- (void)drawAtPoint:(CGPoint)arg1 forWidth:(float)arg2 withFont:(id)arg3 fontColor:(id)arg4 shadowColor:(id)arg5;
+@end
+
+@interface NSColor : UIColor
 @end
