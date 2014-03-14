@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>items</key>
+	<array>
+
+        <dict>
+            <key>cell</key>            <string>PSGroupCell</string>
+        </dict>
+
+        <dict>
+            <key>cell</key>            <string>PSStaticTextCell</string>
+            <key>label</key>           <string>Weekday X-Surplus</string>
+        </dict>
+
+		<dict>
+			<key>cell</key>			    	<string>PSSliderCell</string>
+			<key>defaults</key>		    	<string>com.insanj.colendar</string>
+			<key>key</key> 			    	<string>weekdayX</string>
+            <key>showValue</key>               <true/>
+			<key>min</key> 			    	<real>0</real>
+			<key>max</key> 			    	<real>20</real>
+			<key>default</key> 		    	<real>0</real>
+		</dict>
+
+        <dict>
+            <key>cell</key>            <string>PSStaticTextCell</string>
+            <key>label</key>           <string>Weekday Y-Surplus</string>
+        </dict>
+
+        <dict>
+            <key>cell</key>			    	<string>PSSliderCell</string>
+            <key>defaults</key>		    	<string>com.insanj.colendar</string>
+            <key>key</key> 			    	<string>weekdayY</string>
+            <key>showValue</key>               <true/>
+            <key>min</key> 			    	<real>0</real>
+            <key>max</key> 			    	<real>20</real>
+            <key>default</key> 		    	<real>0</real>
+        </dict>
+
+
+                <dict>
+                    <key>cell</key>            <string>PSGroupCell</string>
+                </dict>
+
+                <dict>
+                    <key>cell</key>            <string>PSStaticTextCell</string>
+                    <key>label</key>           <string>Date X-Surplus</string>
+                </dict>
+
+                <dict>
+                    <key>cell</key>			    	<string>PSSliderCell</string>
+                    <key>defaults</key>		    	<string>com.insanj.colendar</string>
+                    <key>key</key> 			    	<string>dateX</string>
+                    <key>showValue</key>               <true/>
+                    <key>min</key> 			    	<real>0</real>
+                    <key>max</key> 			    	<real>20</real>
+                    <key>default</key> 		    	<real>0</real>
+                </dict>
+
+                <dict>
+                    <key>cell</key>            <string>PSStaticTextCell</string>
+                    <key>label</key>           <string>Date Y-Surplus</string>
+                </dict>
+
+                <dict>
+                    <key>cell</key>			    	<string>PSSliderCell</string>
+                    <key>defaults</key>		    	<string>com.insanj.colendar</string>
+                    <key>key</key> 			    	<string>dateY</string>
+                    <key>showValue</key>               <true/>
+                    <key>min</key> 			    	<real>0</real>
+                    <key>max</key> 			    	<real>20</real>
+                    <key>default</key> 		    	<real>0</real>
+                </dict>
+
+	</array>
+	<key>title</key>	<string>Adjustments</string>
+</dict>
+
+</plist>

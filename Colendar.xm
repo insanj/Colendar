@@ -5,9 +5,13 @@
 
 static CGSize cl_iconSize;
 
-static UIColor * cl_loadTextColor() {
-	NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
-	switch ([[settings objectForKey:@"globalColor"] intValue]) {
+static BOOL cl_isEnabled() {
+	NSDictionary *settings =  [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
+	return ![[settings objectForKey:@"disabled"] boolValue];
+}
+
+static UIColor * cl_loadColorForCase(int caseNumber) {
+	switch (caseNumber) {
 		default:
 		case 0:	// baby blue
 			return UIColorFromRGB(0x89cff0);
@@ -68,12 +72,20 @@ static UIColor * cl_loadTextColor() {
 	}
 }
 
+static UIColor * cl_loadWeekdayColor(NSDictionary *settings) {
+	return cl_loadColorForCase([[settings objectForKey:@"weekdayColor"] intValue]);
+}
+
+static UIColor * cl_loadDateColor(NSDictionary *settings) {
+	return cl_loadColorForCase([[settings objectForKey:@"dateColor"] intValue]);
+}
+
 /******************** Calendar Appplication Generation ********************/
 
 %hook SBCalendarApplicationIcon
 
 - (UIImage *)generateIconImage:(int)type {
-	cl_iconSize = [%orig(type) size];
+	cl_iconSize = cl_isEnabled() ? [%orig(type) size] : CGSizeZero;
 	NSLog(@"[Colendar] In -generateIconImage, assigned size to original's %@.", NSStringFromCGSize(cl_iconSize));
 	UIImage *iconImage = %orig(type);
 	cl_iconSize = CGSizeZero;
@@ -89,17 +101,19 @@ static UIColor * cl_loadTextColor() {
 
 - (CGSize)_legacy_drawAtPoint:(CGPoint)arg1 withFont:(id)arg2 {
 	if (!CGSizeEqualToSize(cl_iconSize, CGSizeZero)) {
+		NSDictionary *settings =  [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
+
 		if ([self intValue] <= 0) {
 			NSLog(@"[Colendar] Drawing day (%@) to point %@.", self, NSStringFromCGPoint(arg1));
-			[self drawAtPoint:arg1 withAttributes:@{ @"NSFont" : arg2, @"NSColor" : cl_loadTextColor()}];
+			[self drawAtPoint:CGPointMake(arg1.x + [[settings objectForKey:@"weekdayX"] floatValue], arg1.y + [[settings objectForKey:@"weekdayY"] floatValue]) withAttributes:@{ @"NSFont" : arg2, @"NSColor" : cl_loadWeekdayColor(settings)}];
 		}
 
 		else {
 			CGFloat origin = (cl_iconSize.width - [self sizeWithFont:arg2].width) / 2.0;
-			CGPoint centered = CGPointMake(origin, arg1.y);
+			CGPoint centered = CGPointMake(origin + [[settings objectForKey:@"dateX"] floatValue], arg1.y + [[settings objectForKey:@"dateY"] floatValue]);
 
 			NSLog(@"[Colendar] Drawing date (%@) to point %@.", self, NSStringFromCGPoint(centered));
-			[self drawAtPoint:centered withAttributes:@{ @"NSFont" : arg2, @"NSColor" : cl_loadTextColor()}];
+			[self drawAtPoint:centered withAttributes:@{ @"NSFont" : arg2, @"NSColor" : cl_loadDateColor(settings)}];
 
 			// For debugging, it appears to be perfect... %orig();
 		}

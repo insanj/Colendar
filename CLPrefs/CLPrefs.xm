@@ -44,9 +44,7 @@ static UIColor *cl_getTintColor() {
 
 - (void)viewDidLoad{
 	[super viewDidLoad];
-
 	[UISwitch appearanceWhenContainedIn:self.class, nil].onTintColor = cl_getTintColor();
-	[UISegmentedControl appearanceWhenContainedIn:self.class, nil].tintColor = cl_getTintColor();
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -57,8 +55,14 @@ static UIColor *cl_getTintColor() {
 
 	NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
 
-	if (![settings objectForKey:@"globalColor"]) {
-		PSSpecifier *colorSpecifier = [self specifierForID:@"GlobalColor"];
+	if (![settings objectForKey:@"weekdayColor"]) {
+		PSSpecifier *colorSpecifier = [self specifierForID:@"WeekdayColor"];
+		[self setPreferenceValue:@(0.0) specifier:colorSpecifier];
+		[self reloadSpecifier:colorSpecifier];
+	}
+
+	if (![settings objectForKey:@"dateColor"]) {
+		PSSpecifier *colorSpecifier = [self specifierForID:@"DateColor"];
 		[self setPreferenceValue:@(0.0) specifier:colorSpecifier];
 		[self reloadSpecifier:colorSpecifier];
 	}
@@ -252,6 +256,31 @@ static UIColor *cl_getTintColor() {
 	[super tableView:arg1 didSelectRowAtIndexPath:arg2];
 
 	cl_setTintColor();
+	self.navigationController.navigationBar.tintColor = cl_getTintColor();
+}
+
+@end
+
+@implementation CLAdvPrefsListController : PSListController
+
+- (NSArray *)specifiers{
+	if(!_specifiers)
+		_specifiers = [self loadSpecifiersFromPlistName:@"CLAdvPrefs" target:self];
+
+	return _specifiers;
+}
+
+- (void)viewDidLoad{
+	[super viewDidLoad];
+
+	[UISwitch appearanceWhenContainedIn:self.class, nil].onTintColor = cl_getTintColor();
+	[UISlider appearanceWhenContainedIn:self.class, nil].minimumTrackTintColor = cl_getTintColor();
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+	[(UITableView *)self.view deselectRowAtIndexPath:((UITableView *)self.view).indexPathForSelectedRow animated:YES];
+
+	self.view.tintColor = cl_getTintColor();
 	self.navigationController.navigationBar.tintColor = cl_getTintColor();
 }
 
