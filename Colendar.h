@@ -102,11 +102,3 @@
 - (void)localeChanged;
 - (id)numberFont;
 @end
-
-@interface NSString (Private)
-- (CGSize)drawAtPoint:(CGPoint)point forWidth:(float)width withFont:(id)font lineBreakMode:(int)mode letterSpacing:(float)spacing includeEmoji:(BOOL)emoji;
-- (void)drawAtPoint:(CGPoint)arg1 forWidth:(float)arg2 withFont:(id)arg3 fontColor:(id)arg4 shadowColor:(id)arg5;
-@end
-
-@interface NSColor : UIColor
-@end
