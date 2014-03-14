@@ -70,7 +70,7 @@
 - (id)absolutePathForAppBundleWithIdentifier:(NSString *)arg1;
 @end
 
-typedef enum PSCellType {
+/*typedef enum PSCellType {
 	PSGroupCell,
 	PSLinkCell,
 	PSLinkListCell,
@@ -86,8 +86,7 @@ typedef enum PSCellType {
 	PSSecureEditTextCell,
 	PSButtonCell,
 	PSEditTextViewCell,
-} PSCellType;
-
+} PSCellType;*/
 
 @interface SBCalendarApplicationIcon //: SBApplicationIcon
 + (id)countriesRequiringBlackDayOfWeek;
