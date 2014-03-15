@@ -16,7 +16,7 @@ static void cl_setTintColor() {
 						  UIColorFromRGB(0xc0c0c0), UIColorFromRGB(0x7098DB), UIColorFromRGB(0xffffff),
 						  UIColorFromRGB(0xffff3b) ];
 
-	clTintColor = [colors objectAtIndex:[[settings objectForKey:@"globalColor"] intValue]];
+	clTintColor = [colors objectAtIndex:[[settings objectForKey:@"weekdayColor"] intValue]];
 }
 
 static UIColor *cl_getTintColor() {
