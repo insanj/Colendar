@@ -44,7 +44,6 @@ static UIColor *cl_getTintColor() {
 
 - (void)viewDidLoad{
 	[super viewDidLoad];
-	[UISwitch appearanceWhenContainedIn:self.class, nil].onTintColor = cl_getTintColor();
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -52,6 +51,7 @@ static UIColor *cl_getTintColor() {
 
 	self.view.tintColor = cl_getTintColor();
     self.navigationController.navigationBar.tintColor = cl_getTintColor();
+	[UISwitch appearanceWhenContainedIn:self.class, nil].onTintColor = cl_getTintColor();
 
 	NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
 
@@ -272,12 +272,12 @@ static UIColor *cl_getTintColor() {
 
 - (void)viewDidLoad{
 	[super viewDidLoad];
-
-	[UISwitch appearanceWhenContainedIn:self.class, nil].onTintColor = cl_getTintColor();
-	[UISlider appearanceWhenContainedIn:self.class, nil].minimumTrackTintColor = cl_getTintColor();
 }
 
 - (void)viewWillAppear:(BOOL)animated{
+	[UISwitch appearanceWhenContainedIn:self.class, nil].onTintColor = cl_getTintColor();
+	[UISlider appearanceWhenContainedIn:self.class, nil].minimumTrackTintColor = cl_getTintColor();
+	
 	[(UITableView *)self.view deselectRowAtIndexPath:((UITableView *)self.view).indexPathForSelectedRow animated:YES];
 
 	self.view.tintColor = cl_getTintColor();
