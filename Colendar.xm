@@ -105,7 +105,7 @@ static UIColor * cl_loadDateColor(NSDictionary *settings) {
 
 		if ([self intValue] <= 0) {
 			NSLog(@"[Colendar] Drawing day (%@) to point %@.", self, NSStringFromCGPoint(arg1));
-			[self drawAtPoint:CGPointMake(arg1.x + [[settings objectForKey:@"weekdayX"] floatValue], arg1.y + [[settings objectForKey:@"weekdayY"] floatValue]) withAttributes:@{ @"NSFont" : arg2, @"NSColor" : cl_loadWeekdayColor(settings)}];
+			[self drawAtPoint:CGPointMake(arg1.x + [[settings objectForKey:@"weekdayX"] floatValue], arg1.y + [[settings objectForKey:@"weekdayY"] floatValue]) withAttributes:@{ @"NSFont" : [arg2 fontWithSize:(((UIFont *)arg2).pointSize + [[settings objectForKey:@"fontAddend"] floatValue])], @"NSColor" : cl_loadWeekdayColor(settings)}];
 		}
 
 		else {
@@ -114,8 +114,10 @@ static UIColor * cl_loadDateColor(NSDictionary *settings) {
 
 			NSLog(@"[Colendar] Drawing date (%@) to point %@.", self, NSStringFromCGPoint(centered));
 			[self drawAtPoint:centered withAttributes:@{ @"NSFont" : arg2, @"NSColor" : cl_loadDateColor(settings)}];
+		}
 
-			// For debugging, it appears to be perfect... %orig();
+		if ([[settings objectForKey:@"original"] boolValue]) {
+			return %orig(arg1, arg2);
 		}
 
 		return CGSizeZero;

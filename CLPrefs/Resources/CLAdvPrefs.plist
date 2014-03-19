@@ -7,6 +7,7 @@
 
         <dict>
             <key>cell</key>            <string>PSGroupCell</string>
+            <key>footerText</key>      <string>Controls amount of additional pixels to shift the Weekday label when drawing the icon. Helpful for themes that override default centering.</string>
         </dict>
 
         <dict>
@@ -40,39 +41,73 @@
         </dict>
 
 
-                <dict>
-                    <key>cell</key>            <string>PSGroupCell</string>
-                </dict>
+        <dict>
+            <key>cell</key>            <string>PSGroupCell</string>
+            <key>footerText</key>      <string>Controls amount of additional pixels to shift the Date label when drawing the icon. Likely to happen in more advanced themes, by about three pixels.</string>
+        </dict>
 
-                <dict>
-                    <key>cell</key>            <string>PSStaticTextCell</string>
-                    <key>label</key>           <string>Date X-Surplus</string>
-                </dict>
+        <dict>
+            <key>cell</key>            <string>PSStaticTextCell</string>
+            <key>label</key>           <string>Date X-Surplus</string>
+        </dict>
 
-                <dict>
-                    <key>cell</key>			    	<string>PSSliderCell</string>
-                    <key>defaults</key>		    	<string>com.insanj.colendar</string>
-                    <key>key</key> 			    	<string>dateX</string>
-                    <key>showValue</key>               <true/>
-                    <key>min</key> 			    	<real>0</real>
-                    <key>max</key> 			    	<real>20</real>
-                    <key>default</key> 		    	<real>0</real>
-                </dict>
+        <dict>
+            <key>cell</key>			    	<string>PSSliderCell</string>
+            <key>defaults</key>		    	<string>com.insanj.colendar</string>
+            <key>key</key> 			    	<string>dateX</string>
+            <key>showValue</key>               <true/>
+            <key>min</key> 			    	<real>0</real>
+            <key>max</key> 			    	<real>20</real>
+            <key>default</key> 		    	<real>0</real>
+        </dict>
 
-                <dict>
-                    <key>cell</key>            <string>PSStaticTextCell</string>
-                    <key>label</key>           <string>Date Y-Surplus</string>
-                </dict>
+        <dict>
+            <key>cell</key>            <string>PSStaticTextCell</string>
+            <key>label</key>           <string>Date Y-Surplus</string>
+        </dict>
 
-                <dict>
-                    <key>cell</key>			    	<string>PSSliderCell</string>
-                    <key>defaults</key>		    	<string>com.insanj.colendar</string>
-                    <key>key</key> 			    	<string>dateY</string>
-                    <key>showValue</key>               <true/>
-                    <key>min</key> 			    	<real>0</real>
-                    <key>max</key> 			    	<real>20</real>
-                    <key>default</key> 		    	<real>0</real>
-                </dict>
+        <dict>
+            <key>cell</key>			    	<string>PSSliderCell</string>
+            <key>defaults</key>		    	<string>com.insanj.colendar</string>
+            <key>key</key> 			    	<string>dateY</string>
+            <key>showValue</key>               <true/>
+            <key>min</key> 			    	<real>0</real>
+            <key>max</key> 			    	<real>20</real>
+            <key>default</key> 		    	<real>0</real>
+        </dict>
+
+        <dict>
+            <key>cell</key>            <string>PSGroupCell</string>
+            <key>footerText</key>      <string>Controls custom font sizes (default is 0). Most themes don't alter default font sizes, but if they do, bring it back here.</string>
+        </dict>
+
+        <dict>
+            <key>cell</key>            <string>PSStaticTextCell</string>
+            <key>label</key>           <string>Font Size Addend</string>
+        </dict>
+
+        <dict>
+            <key>cell</key>			    	<string>PSSliderCell</string>
+            <key>defaults</key>		    	<string>com.insanj.colendar</string>
+            <key>key</key> 			    	<string>fontAddend</string>
+            <key>showValue</key>               <true/>
+            <key>min</key> 			    	<real>-5</real>
+            <key>max</key> 			    	<real>5</real>
+            <key>default</key> 		    	<real>0</real>
+        </dict>
+
+        <dict>
+            <key>cell</key>            <string>PSGroupCell</string>
+            <key>footerText</key>      <string>Helpful for checking correct pixel locations and font sizes.</string>
+        </dict>
+
+        <dict>
+            <key>cell</key>				<string>PSSwitchCell</string>
+            <key>defaults</key>			<string>com.insanj.colendar</string>
+            <key>label</key>               <string>Draw Original</string>
+            <key>key</key> 				<string>noOriginal</string>
+            <key>default</key> 			<false/>
+        </dict>
 
 	</array>
 	<key>title</key>	<string>Adjustments</string>
