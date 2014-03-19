@@ -171,6 +171,10 @@
         </dict>
 
         <dict>
+            <key>cell</key>            <string>PSGroupCell</string>
+        </dict>
+
+        <dict>
             <key>cell</key>	          <string>PSGroupCell</string>
             <key>label</key> 	    	<string>Advanced</string>
             <key>footerText</key>		<string>You may want to alter or check your theme preferences to match Colendar.</string>
@@ -188,6 +192,10 @@
             <key>cellClass</key>     <string>CLWinterBoardButtonCell</string>
             <key>label</key> 	    <string>Open WinterBoard</string>
             <key>action</key> 	   <string>winterboard</string>
+        </dict>
+
+        <dict>
+            <key>cell</key>            <string>PSGroupCell</string>
         </dict>
 
         <dict>
@@ -214,9 +222,20 @@
 		</dict>
 
         <dict>
+            <key>cell</key>            <string>PSGroupCell</string>
+        </dict>
+
+        <dict>
             <key>cell</key>				<string>PSGroupCell</string>
             <key>footerAlignment</key> 	<integer>1</integer>
             <key>footerText</key>		  <string>© 2014 Julian Weiss</string>
+        </dict>
+
+        <dict>
+            <key>cell</key> 		 <string>PSButtonCell</string>
+            <key>label</key> 	    <string>More Info Online</string>
+            <key>icon</key> 		 <string>safari.png</string>
+            <key>action</key> 	   <string>website</string>
         </dict>
 
 	</array>

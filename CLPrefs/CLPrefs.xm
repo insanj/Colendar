@@ -145,6 +145,10 @@ static UIColor *cl_getTintColor() {
 		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:[@"https://mobile.twitter.com/" stringByAppendingString:user]]];
 }
 
+- (void)website {
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://insanj.com/colendar"]];
+}
+
 @end
 
 @implementation CLWinterBoardButtonCell
@@ -277,7 +281,7 @@ static UIColor *cl_getTintColor() {
 - (void)viewWillAppear:(BOOL)animated{
 	[UISwitch appearanceWhenContainedIn:self.class, nil].onTintColor = cl_getTintColor();
 	[UISlider appearanceWhenContainedIn:self.class, nil].minimumTrackTintColor = cl_getTintColor();
-	
+
 	[(UITableView *)self.view deselectRowAtIndexPath:((UITableView *)self.view).indexPathForSelectedRow animated:YES];
 
 	self.view.tintColor = cl_getTintColor();
