@@ -6,15 +6,15 @@ static UIColor *clTintColor;
 static void cl_setTintColor() {
 	NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
 	NSArray *colors =  @[ UIColorFromRGB(0x89cff0), UIColorFromRGB(0xe4e4a1), UIColorFromRGB(0x0000cc),
-						  UIColorFromRGB(0xa5492a), UIColorFromRGB(0x36454f), UIColorFromRGB(0xfffdd0),
-						  UIColorFromRGB(0xffd700), UIColorFromRGB(0x808080), UIColorFromRGB(0x27d827),
-						  UIColorFromRGB(0xadcae6), UIColorFromRGB(0x98db70), UIColorFromRGB(0x800000),
-						  UIColorFromRGB(0x000080), UIColorFromRGB(0x4d4dff), UIColorFromRGB(0x6fff00),
-						  UIColorFromRGB(0xff4105), UIColorFromRGB(0xff1cae), UIColorFromRGB(0x993cf3),
-						  UIColorFromRGB(0xfe0001), UIColorFromRGB(0xffff00), UIColorFromRGB(0xffa500),
-						  UIColorFromRGB(0xff748c), UIColorFromRGB(0x800080), UIColorFromRGB(0xff0000),
-						  UIColorFromRGB(0xc0c0c0), UIColorFromRGB(0x7098DB), UIColorFromRGB(0xffffff),
-						  UIColorFromRGB(0xffff3b) ];
+						  UIColorFromRGB(0xa5492a), UIColorFromRGB(0x36454f), [UIColor clearColor],
+						  UIColorFromRGB(0xfffdd0), UIColorFromRGB(0xffd700), UIColorFromRGB(0x808080),
+						  UIColorFromRGB(0x27d827), UIColorFromRGB(0xadcae6), UIColorFromRGB(0x98db70),
+						  UIColorFromRGB(0x800000), UIColorFromRGB(0x000080), UIColorFromRGB(0x4d4dff),
+						  UIColorFromRGB(0x6fff00), UIColorFromRGB(0xff4105), UIColorFromRGB(0xff1cae),
+						  UIColorFromRGB(0x993cf3), UIColorFromRGB(0xfe0001), UIColorFromRGB(0xffff00),
+						  UIColorFromRGB(0xffa500), UIColorFromRGB(0xff748c), UIColorFromRGB(0x800080),
+						  UIColorFromRGB(0xff0000), UIColorFromRGB(0xc0c0c0), UIColorFromRGB(0x7098DB),
+						  UIColorFromRGB(0xffffff), UIColorFromRGB(0xffff3b) ];
 
 	clTintColor = [colors objectAtIndex:[[settings objectForKey:@"weekdayColor"] intValue]];
 }
@@ -216,6 +216,7 @@ static UIColor *cl_getTintColor() {
 									@"Blue"  	 	: UIColorFromRGB(0x0000cc),
 									@"Brown" 	 	: UIColorFromRGB(0xa5492a),
 									@"Charcoal" 	  : UIColorFromRGB(0x36454f),
+									@"Clear" 	     : [UIColor clearColor],
 									@"Cream"    	  : UIColorFromRGB(0xfffdd0),
 									@"Gold"	 	  : UIColorFromRGB(0xffd700),
 									@"Gray"	 	  : UIColorFromRGB(0x808080),

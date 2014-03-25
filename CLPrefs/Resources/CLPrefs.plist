@@ -21,7 +21,7 @@
 		<dict>
 			<key>cell</key>            <string>PSGroupCell</string>
 			<key>label</key>		   <string>Adjustments</string>
-			<key>footerText</key>      <string>Change the Calendar text color.</string>
+			<key>footerText</key>      <string>Change the Calendar text color. No respring required.</string>
 		</dict>
 
 		<dict>
@@ -36,7 +36,8 @@
                 <string>Beige</string>
                 <string>Blue</string>
 				<string>Brown</string>
-    		    <string>Charcoal</string>
+                <string>Charcoal</string>
+    		    <string>Clear</string>
                 <string>Cream</string>
 			    <string>Gold</string>
 			    <string>Gray</string>
@@ -91,6 +92,7 @@
                 <integer>25</integer>
                 <integer>26</integer>
                 <integer>27</integer>
+                <integer>28</integer>
 			</array>
 		</dict>
 
@@ -107,6 +109,7 @@
                 <string>Blue</string>
                 <string>Brown</string>
                 <string>Charcoal</string>
+                <string>Clear</string>
                 <string>Cream</string>
                 <string>Gold</string>
                 <string>Gray</string>
@@ -161,6 +164,7 @@
                 <integer>25</integer>
                 <integer>26</integer>
                 <integer>27</integer>
+                <integer>28</integer>
             </array>
         </dict>
 
@@ -202,7 +206,7 @@
 			<key>cell</key>	          <string>PSGroupCell</string>
 			<key>label</key>             <string>Credits</string>
             <key>footerAlignment</key>   <integer>1</integer>
-            <key>footerText</key>		<string>Thanks for using Colendar (1.0) by Julian Weiss and Jason Kesler. Please send all feedback directly from Cydia.</string>
+            <key>footerText</key>		<string>Thanks for using Colendar (1.1) by Julian Weiss and Jason Kesler. Please send all feedback directly from Cydia.</string>
 		</dict>
 
         <dict>

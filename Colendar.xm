@@ -23,51 +23,53 @@ static UIColor * cl_loadColorForCase(int caseNumber) {
 			return UIColorFromRGB(0xa5492a);
 		case 4:	// charcoal
 			return UIColorFromRGB(0x36454f);
-		case 5:	// cream
+		case 5:	// clear
+			return [UIColor clearColor];
+		case 6:	// cream
 			return UIColorFromRGB(0xfffdd0);
-		case 6:	// gold
+		case 7:	// gold
 			return UIColorFromRGB(0xffd700);
-		case 7:	// gray
+		case 8:	// gray
 			return UIColorFromRGB(0x808080);
-		case 8:	// green
+		case 9:	// green
 			return UIColorFromRGB(0x27d827);
-		case 9:	// light blue
+		case 10:	// light blue
 			return UIColorFromRGB(0xadcae6);
-		case 10:	// light green
+		case 11:	// light green
 			return UIColorFromRGB(0x98db70);
-		case 11:	// maroon
+		case 12:	// maroon
 			return UIColorFromRGB(0x800000);
-		case 12:	// navy
+		case 13:	// navy
 			return UIColorFromRGB(0x000080);
-		case 13:	// neon blue
+		case 14:	// neon blue
 			return UIColorFromRGB(0x4d4dff);
-		case 14:	// neon green
+		case 15:	// neon green
 			return UIColorFromRGB(0x6fff00);
-		case 15:	// neon orange
+		case 16:	// neon orange
 			return UIColorFromRGB(0xff4105);
-		case 16:	// neon pink
+		case 17:	// neon pink
 			return UIColorFromRGB(0xff1cae);
-		case 17:	// neon purple
+		case 18:	// neon purple
 			return UIColorFromRGB(0x993cf3);
-		case 18:	// neon red
+		case 19:	// neon red
 			return UIColorFromRGB(0xfe0001);
-		case 19:	// neon yellow
+		case 20:	// neon yellow
 			return UIColorFromRGB(0xffff00);
-		case 20:	// orange
+		case 21:	// orange
 			return UIColorFromRGB(0xffa500);
-		case 21:	// pink
+		case 22:	// pink
 			return UIColorFromRGB(0xff748c);
-		case 22:	// purple
+		case 23:	// purple
 			return UIColorFromRGB(0x800080);
-		case 23:	// red
+		case 24:	// red
 			return UIColorFromRGB(0xff0000);
-		case 24:	// silver
+		case 25:	// silver
 			return UIColorFromRGB(0xc0c0c0);
-		case 25:	// turquoise
+		case 26:	// turquoise
 			return UIColorFromRGB(0x7098DB);
-		case 26:	// white
+		case 27:	// white
 			return UIColorFromRGB(0xffffff);
-		case 27:	// yellow
+		case 28:	// yellow
 			return UIColorFromRGB(0xffff3b);
 	}
 }
@@ -83,6 +85,14 @@ static UIColor * cl_loadDateColor(NSDictionary *settings) {
 /******************** Calendar Appplication Generation ********************/
 
 %hook SBCalendarApplicationIcon
+
+- (id)initWithApplication:(id)application {
+	SBCalendarApplicationIcon *icon = %orig();
+
+	NSLog(@"[Colendar] Adding observer for redrawing calendar icon (%@)...", icon);
+	[[NSDistributedNotificationCenter defaultCenter] addObserver:icon selector:@selector(reloadIconImage) name:@"CLChange" object:nil];
+	return icon;
+}
 
 - (UIImage *)generateIconImage:(int)type {
 	cl_iconSize = cl_isEnabled() ? [%orig(type) size] : CGSizeZero;
@@ -145,12 +155,3 @@ static UIColor * cl_loadDateColor(NSDictionary *settings) {
 }
 
 @end
-
-/********************** Global Const, Notif Listener **********************/
-
-%ctor{
-	[[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"CLChange" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification){
-		NSLog(@"[Colendar] Prompting user to save and respring device (or not)...");
-		[[[[UIAlertView alloc] initWithTitle:@"Warning" message:@"Applying color settings will respring your device, are you sure you want to do so now?" delegate:[[CLAlertViewDelegate alloc] init] cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil] autorelease] show];
-	}];
-}

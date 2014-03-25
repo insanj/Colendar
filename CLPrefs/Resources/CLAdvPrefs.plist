@@ -12,7 +12,7 @@
 
         <dict>
             <key>cell</key>            <string>PSStaticTextCell</string>
-            <key>label</key>           <string>Weekday X-Surplus</string>
+            <key>label</key>           <string>Weekday X-Shift</string>
         </dict>
 
 		<dict>
@@ -20,14 +20,14 @@
 			<key>defaults</key>		    	<string>com.insanj.colendar</string>
 			<key>key</key> 			    	<string>weekdayX</string>
             <key>showValue</key>               <true/>
-			<key>min</key> 			    	<real>0</real>
+			<key>min</key> 			    	<real>-20</real>
 			<key>max</key> 			    	<real>20</real>
 			<key>default</key> 		    	<real>0</real>
 		</dict>
 
         <dict>
             <key>cell</key>            <string>PSStaticTextCell</string>
-            <key>label</key>           <string>Weekday Y-Surplus</string>
+            <key>label</key>           <string>Weekday Y-Shift</string>
         </dict>
 
         <dict>
@@ -35,7 +35,7 @@
             <key>defaults</key>		    	<string>com.insanj.colendar</string>
             <key>key</key> 			    	<string>weekdayY</string>
             <key>showValue</key>               <true/>
-            <key>min</key> 			    	<real>0</real>
+            <key>min</key> 			    	<real>-20</real>
             <key>max</key> 			    	<real>20</real>
             <key>default</key> 		    	<real>0</real>
         </dict>
@@ -48,7 +48,7 @@
 
         <dict>
             <key>cell</key>            <string>PSStaticTextCell</string>
-            <key>label</key>           <string>Date X-Surplus</string>
+            <key>label</key>           <string>Date X-Shift</string>
         </dict>
 
         <dict>
@@ -56,14 +56,14 @@
             <key>defaults</key>		    	<string>com.insanj.colendar</string>
             <key>key</key> 			    	<string>dateX</string>
             <key>showValue</key>               <true/>
-            <key>min</key> 			    	<real>0</real>
+            <key>min</key> 			    	<real>-20</real>
             <key>max</key> 			    	<real>20</real>
             <key>default</key> 		    	<real>0</real>
         </dict>
 
         <dict>
             <key>cell</key>            <string>PSStaticTextCell</string>
-            <key>label</key>           <string>Date Y-Surplus</string>
+            <key>label</key>           <string>Date Y-Shift</string>
         </dict>
 
         <dict>
@@ -71,7 +71,7 @@
             <key>defaults</key>		    	<string>com.insanj.colendar</string>
             <key>key</key> 			    	<string>dateY</string>
             <key>showValue</key>               <true/>
-            <key>min</key> 			    	<real>0</real>
+            <key>min</key> 			    	<real>-20</real>
             <key>max</key> 			    	<real>20</real>
             <key>default</key> 		    	<real>0</real>
         </dict>
@@ -83,7 +83,7 @@
 
         <dict>
             <key>cell</key>            <string>PSStaticTextCell</string>
-            <key>label</key>           <string>Font Size Addend</string>
+            <key>label</key>           <string>Font Size Shift</string>
         </dict>
 
         <dict>
