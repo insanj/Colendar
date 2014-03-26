@@ -83,18 +83,34 @@
 
         <dict>
             <key>cell</key>            <string>PSStaticTextCell</string>
-            <key>label</key>           <string>Font Size Shift</string>
+            <key>label</key>           <string>Weekday Font Size Shift</string>
         </dict>
 
         <dict>
             <key>cell</key>			    	<string>PSSliderCell</string>
             <key>defaults</key>		    	<string>com.insanj.colendar</string>
-            <key>key</key> 			    	<string>fontAddend</string>
+            <key>key</key> 			    	<string>weekdayFontSize</string>
             <key>showValue</key>               <true/>
             <key>min</key> 			    	<real>-5</real>
             <key>max</key> 			    	<real>5</real>
             <key>default</key> 		    	<real>0</real>
         </dict>
+
+        <dict>
+            <key>cell</key>            <string>PSStaticTextCell</string>
+            <key>label</key>           <string>Date Font Size Shift</string>
+        </dict>
+
+        <dict>
+            <key>cell</key>			    	<string>PSSliderCell</string>
+            <key>defaults</key>		    	<string>com.insanj.colendar</string>
+            <key>key</key> 			    	<string>dateFontSize</string>
+            <key>showValue</key>               <true/>
+            <key>min</key> 			    	<real>-5</real>
+            <key>max</key> 			    	<real>5</real>
+            <key>default</key> 		    	<real>0</real>
+        </dict>
+
 
         <dict>
             <key>cell</key>            <string>PSGroupCell</string>

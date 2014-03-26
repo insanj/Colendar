@@ -100,3 +100,8 @@
 @interface NSString (Private)
 - (void)drawAtPoint:(CGPoint)arg1 forWidth:(float)arg2 withFont:(id)arg3 fontColor:(id)arg4 shadowColor:(id)arg5;
 @end
+
+// Colendar
+@interface NSString (Colendar)
+- (BOOL)cl_replacementDrawAtPoint:(CGPoint)arg1 withFont:(UIFont *)arg2;
+@end

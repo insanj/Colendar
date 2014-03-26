@@ -107,6 +107,34 @@ static UIColor * cl_loadDateColor(NSDictionary *settings) {
 
 %end
 
+%hook NSString
+
+// Returns if the original should be drawn (yay convenience).
+%new - (BOOL)cl_replacementDrawAtPoint:(CGPoint)arg1 withFont:(UIFont *)arg2 {
+	NSDictionary *settings =  [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
+
+	if ([self intValue] <= 0) {
+		CGPoint centered = CGPointMake(arg1.x + [[settings objectForKey:@"weekdayX"] floatValue], arg1.y + [[settings objectForKey:@"weekdayY"] floatValue]);
+		UIFont *font = [arg2 fontWithSize:(arg2.pointSize + [[settings objectForKey:@"weekdayFontSize"] floatValue])];
+
+		NSLog(@"[Colendar] Drawing day (%@) to point %@ with font %@, due to settings: %@", self, NSStringFromCGPoint(arg1), font, settings);
+		[self drawAtPoint:centered forWidth:cl_iconSize.width withFont:font fontColor:cl_loadWeekdayColor(settings) shadowColor:nil];
+	}
+
+	else {
+		CGFloat origin = (cl_iconSize.width - [self sizeWithFont:arg2].width) / 2.0;
+		CGPoint centered = CGPointMake(origin + [[settings objectForKey:@"dateX"] floatValue], arg1.y + [[settings objectForKey:@"dateY"] floatValue]);
+		UIFont *font = [arg2 fontWithSize:(arg2.pointSize + [[settings objectForKey:@"dateFontSize"] floatValue])];
+
+		NSLog(@"[Colendar] Drawing date (%@) to point %@ with font %@, due to settings: %@", self, NSStringFromCGPoint(centered), font, settings);
+		[self drawAtPoint:centered forWidth:cl_iconSize.width withFont:font fontColor:cl_loadDateColor(settings) shadowColor:nil];
+	}
+
+	return [[settings objectForKey:@"original"] boolValue];
+}
+
+%end
+
 %end // %group Shared
 
 /******************** iOS >=7 Calendar String Writing Hook ********************/
@@ -116,32 +144,15 @@ static UIColor * cl_loadDateColor(NSDictionary *settings) {
 %hook NSString
 
 - (CGSize)_legacy_drawAtPoint:(CGPoint)arg1 withFont:(id)arg2 {
+	NSLog(@"[Colendar] Beginning modern iOS string drawing override...");
+
+	BOOL drawOriginal = YES;
 	if (!CGSizeEqualToSize(cl_iconSize, CGSizeZero)) {
-		NSDictionary *settings =  [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
-
-		if ([self intValue] <= 0) {
-			NSLog(@"[Colendar] Drawing day (%@) to point %@.", self, NSStringFromCGPoint(arg1));
-			[self drawAtPoint:CGPointMake(arg1.x + [[settings objectForKey:@"weekdayX"] floatValue], arg1.y + [[settings objectForKey:@"weekdayY"] floatValue]) withAttributes:@{ @"NSFont" : [arg2 fontWithSize:(((UIFont *)arg2).pointSize + [[settings objectForKey:@"fontAddend"] floatValue])], @"NSColor" : cl_loadWeekdayColor(settings)}];
-		}
-
-		else {
-			CGFloat origin = (cl_iconSize.width - [self sizeWithFont:arg2].width) / 2.0;
-			CGPoint centered = CGPointMake(origin + [[settings objectForKey:@"dateX"] floatValue], arg1.y + [[settings objectForKey:@"dateY"] floatValue]);
-
-			NSLog(@"[Colendar] Drawing date (%@) to point %@.", self, NSStringFromCGPoint(centered));
-			[self drawAtPoint:centered withAttributes:@{ @"NSFont" : arg2, @"NSColor" : cl_loadDateColor(settings)}];
-		}
-
-		if ([[settings objectForKey:@"original"] boolValue]) {
-			return %orig(arg1, arg2);
-		}
-
-		return CGSizeZero;
+		drawOriginal = [self cl_replacementDrawAtPoint:arg1 withFont:arg2];
 	}
 
-	else {
-		return %orig(arg1, arg2);
-	}
+	return drawOriginal ? %orig(arg1, arg2) : CGSizeZero;
+
 }
 
 %end
@@ -155,34 +166,14 @@ static UIColor * cl_loadDateColor(NSDictionary *settings) {
 %hook NSString
 
 - (CGSize)drawAtPoint:(CGPoint)arg1 withFont:(id)arg2 {
+	NSLog(@"[Colendar] Beginning ancient iOS string drawing override...");
+
+	BOOL drawOriginal = YES;
 	if (!CGSizeEqualToSize(cl_iconSize, CGSizeZero)) {
-		NSDictionary *settings =  [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
-
-		if ([self intValue] <= 0) {
-			NSLog(@"[Colendar] Drawing day (%@) to point %@.", self, NSStringFromCGPoint(arg1));
-
-			[self drawAtPoint:CGPointMake(arg1.x + [[settings objectForKey:@"weekdayX"] floatValue], arg1.y + [[settings objectForKey:@"weekdayY"] floatValue]) forWidth:cl_iconSize.width withFont:[arg2 fontWithSize:(((UIFont *)arg2).pointSize + [[settings objectForKey:@"fontAddend"] floatValue])] fontColor:cl_loadWeekdayColor(settings) shadowColor:nil];
-		}
-
-		else {
-			CGFloat origin = (cl_iconSize.width - [self sizeWithFont:arg2].width) / 2.0;
-			CGPoint centered = CGPointMake(origin + [[settings objectForKey:@"dateX"] floatValue], arg1.y + [[settings objectForKey:@"dateY"] floatValue]);
-
-			NSLog(@"[Colendar] Drawing date (%@) to point %@.", self, NSStringFromCGPoint(centered));
-			[self drawAtPoint:centered forWidth:cl_iconSize.width withFont:arg2 fontColor:cl_loadDateColor(settings) shadowColor:nil];
-
-		}
-
-		if ([[settings objectForKey:@"original"] boolValue]) {
-			return %orig(arg1, arg2);
-		}
-
-		return CGSizeZero;
+		drawOriginal = [self cl_replacementDrawAtPoint:arg1 withFont:arg2];
 	}
 
-	else {
-		return %orig(arg1, arg2);
-	}
+	return drawOriginal ? %orig(arg1, arg2) : CGSizeZero;
 }
 
 %end

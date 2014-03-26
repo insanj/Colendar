@@ -274,13 +274,11 @@ static UIColor *cl_getTintColor() {
 }
 
 - (void)tableView:(id)arg1 didSelectRowAtIndexPath:(id)arg2 {
+	[super tableView:arg1 didSelectRowAtIndexPath:arg2];
+
 	if (MODERN_IOS) {
 		cl_setTintColor();
 		self.navigationController.navigationBar.tintColor = cl_getTintColor();
-	}
-
-	else {
-		[super tableView:arg1 didSelectRowAtIndexPath:arg2];
 	}
 }
 
