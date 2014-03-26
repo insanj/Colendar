@@ -202,17 +202,6 @@
 
         <dict>
             <key>cell</key>            <string>PSGroupCell</string>
-            <key>footerText</key>      <string>Requires no respring or reconfiguration.</string>
-        </dict>
-
-        <dict>
-            <key>cell</key> 		 <string>PSButtonCell</string>
-            <key>label</key> 	    <string>Apply Changes</string>
-            <key>action</key> 	   <string>apply</string>
-        </dict>
-
-        <dict>
-            <key>cell</key>            <string>PSGroupCell</string>
         </dict>
 
         <dict>
@@ -237,11 +226,30 @@
 
         <dict>
             <key>cell</key>            <string>PSGroupCell</string>
+            <key>label</key>           <string>Apply</string>
+            <key>footerText</key>      <string>Requires no respring or reconfiguration.</string>
+        </dict>
+
+        <dict>
+            <key>cell</key> 		 <string>PSButtonCell</string>
+            <key>label</key> 	    <string>Reset To Defaults</string>
+            <key>action</key> 	   <string>reset</string>
+        </dict>
+
+        <dict>
+            <key>cell</key> 		 <string>PSButtonCell</string>
+            <key>label</key> 	    <string>Apply Changes</string>
+            <key>action</key> 	   <string>apply</string>
+        </dict>
+
+
+        <dict>
+            <key>cell</key>            <string>PSGroupCell</string>
         </dict>
 
         <dict>
 			<key>cell</key>	          <string>PSGroupCell</string>
-			<key>label</key>             <string>Credits</string>
+			<key>label</key>             <string>About</string>
             <key>footerAlignment</key>   <integer>1</integer>
             <key>footerText</key>		<string>Thanks for using Colendar (1.1) by Julian Weiss and Jason Kesler. Please send all feedback directly from Cydia.</string>
 		</dict>
@@ -274,7 +282,7 @@
 
         <dict>
             <key>cell</key> 		 <string>PSButtonCell</string>
-            <key>label</key> 	    <string>More Info Online</string>
+            <key>label</key> 	    <string>Find Colendar Online!</string>
             <key>icon</key> 		 <string>safari.png</string>
             <key>action</key> 	   <string>website</string>
         </dict>

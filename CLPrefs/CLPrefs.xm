@@ -98,6 +98,20 @@ static UIColor *cl_getTintColor() {
 	}
 }
 
+- (void)reset {
+	NSError *error;
+	BOOL removed = [[NSFileManager defaultManager] removeItemAtPath:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"] error:&error] && !error;
+
+	NSLog(@"[Colendar] %@ reset settings to defaults...", removed ? @"Successfully" : [NSString stringWithFormat:@"Failed to (%@)", error]);
+	if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/PreferenceOrganizer.dylib"] || [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/PreferenceOrganizer2.dylib"]) {
+		[(PreferencesAppController *)[UIApplication sharedApplication] applicationOpenURL:[NSURL URLWithString:@"prefs:root=Cydia"]];
+	}
+
+	else {
+		[(PreferencesAppController *)[UIApplication sharedApplication] applicationOpenURL:[NSURL URLWithString:@"prefs"]];
+	}
+}
+
 - (void)apply {
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"CLChange" object:nil];
 }

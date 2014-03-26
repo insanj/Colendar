@@ -122,8 +122,17 @@ static UIColor * cl_loadDateColor(NSDictionary *settings) {
 		if ([self intValue] <= 0) {
 			CGPoint centered = CGPointMake(arg1.x + [[settings objectForKey:@"weekdayX"] floatValue], arg1.y + [[settings objectForKey:@"weekdayY"] floatValue]);
 			CGFloat roundedFontSize = floorf([[settings objectForKey:@"weekdayFontSize"] floatValue] * 10 + 0.5) / 10;
+			NSString *savedFontName = [settings objectForKey:@"weekdayFont"];
 
-			UIFont *font = [arg2 fontWithSize:(((UIFont *)arg2).pointSize + roundedFontSize)];
+			UIFont *font;
+			if (savedFontName) {
+				font = [UIFont fontWithName:savedFontName size:(((UIFont *)arg2).pointSize + roundedFontSize)];
+			}
+
+			else {
+				font = [arg2 fontWithSize:(((UIFont *)arg2).pointSize + roundedFontSize)];
+			}
+
 			NSDictionary *attributes = @{ @"NSFont" : font, @"NSColor" : cl_loadWeekdayColor(settings)};
 
 			NSLog(@"[Colendar] Drawing day (%@) to point %@ with font %@, due to settings: %@.", self, NSStringFromCGPoint(arg1), font, settings);
@@ -134,8 +143,17 @@ static UIColor * cl_loadDateColor(NSDictionary *settings) {
 			CGFloat origin = (cl_iconSize.width - [self sizeWithFont:arg2].width) / 2.0;
 			CGPoint centered = CGPointMake(origin + [[settings objectForKey:@"dateX"] floatValue], arg1.y + [[settings objectForKey:@"dateY"] floatValue]);
 			CGFloat roundedFontSize = floorf([[settings objectForKey:@"dateFontSize"] floatValue] * 10 + 0.5) / 10;
+			NSString *savedFontName = [settings objectForKey:@"dateFont"];
 
-			UIFont *font = [arg2 fontWithSize:(((UIFont *)arg2).pointSize + roundedFontSize)];
+			UIFont *font;
+			if (savedFontName) {
+				font = [UIFont fontWithName:savedFontName size:(((UIFont *)arg2).pointSize + roundedFontSize)];
+			}
+
+			else {
+				font = [arg2 fontWithSize:(((UIFont *)arg2).pointSize + roundedFontSize)];
+			}
+
 			NSDictionary *attributes = @{@"NSFont" : font, @"NSColor" : cl_loadDateColor(settings)};
 
 			NSLog(@"[Colendar] Drawing date (%@) to point %@ with font %@, due to settings: %@.", self, NSStringFromCGPoint(arg1), font, settings);
@@ -171,7 +189,16 @@ static UIColor * cl_loadDateColor(NSDictionary *settings) {
 		if ([self intValue] <= 0) {
 			CGPoint centered = CGPointMake(arg1.x + [[settings objectForKey:@"weekdayX"] floatValue], arg1.y + [[settings objectForKey:@"weekdayY"] floatValue]);
 			CGFloat roundedFontSize = floorf([[settings objectForKey:@"weekdayFontSize"] floatValue] * 10 + 0.5) / 10;
-			UIFont *font = [arg2 fontWithSize:(((UIFont *)arg2).pointSize + roundedFontSize)];
+			NSString *savedFontName = [settings objectForKey:@"weekdayFont"];
+
+			UIFont *font;
+			if (savedFontName) {
+				font = [UIFont fontWithName:savedFontName size:(((UIFont *)arg2).pointSize + roundedFontSize)];
+			}
+
+			else {
+				font = [arg2 fontWithSize:(((UIFont *)arg2).pointSize + roundedFontSize)];
+			}
 
 			NSLog(@"[Colendar] Drawing day (%@) to point %@ with font %@, due to settings: %@", self, NSStringFromCGPoint(arg1), font, settings);
 			[self drawAtPoint:centered forWidth:cl_iconSize.width withFont:font fontColor:cl_loadWeekdayColor(settings) shadowColor:nil];
@@ -181,7 +208,16 @@ static UIColor * cl_loadDateColor(NSDictionary *settings) {
 			CGFloat origin = (cl_iconSize.width - [self sizeWithFont:arg2].width) / 2.0;
 			CGPoint centered = CGPointMake(origin + [[settings objectForKey:@"dateX"] floatValue], arg1.y + [[settings objectForKey:@"dateY"] floatValue]);
 			CGFloat roundedFontSize = floorf([[settings objectForKey:@"dateFontSize"] floatValue] * 10 + 0.5) / 10;
-			UIFont *font = [arg2 fontWithSize:(((UIFont *)arg2).pointSize + roundedFontSize)];
+			NSString *savedFontName = [settings objectForKey:@"dateFont"];
+
+			UIFont *font;
+			if (savedFontName) {
+				font = [UIFont fontWithName:savedFontName size:(((UIFont *)arg2).pointSize + roundedFontSize)];
+			}
+
+			else {
+				font = [arg2 fontWithSize:(((UIFont *)arg2).pointSize + roundedFontSize)];
+			}
 
 			NSLog(@"[Colendar] Drawing date (%@) to point %@ with font %@, due to settings: %@", self, NSStringFromCGPoint(centered), font, settings);
 			[self drawAtPoint:centered forWidth:cl_iconSize.width withFont:font fontColor:cl_loadDateColor(settings) shadowColor:nil];

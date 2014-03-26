@@ -13,5 +13,8 @@ include $(THEOS_MAKE_PATH)/tweak.mk
 SUBPROJECTS += CLPrefs
 include $(THEOS_MAKE_PATH)/aggregate.mk
 
+after-stage::
+	find $(THEOS_STAGING_DIR) -iname \*.plist -exec plutil -convert binary1 {} \;
+
 internal-after-install::
 	install.exec "killall -9 backboardd"
