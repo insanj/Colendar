@@ -1,7 +1,7 @@
 #import "substrate.h"
 #import "Colendar.h"
 
-/********************* Global Text Loading Functions *********************/
+/************************ Global Text Loading Functions ***********************/
 
 static CGSize cl_iconSize;
 
@@ -82,7 +82,9 @@ static UIColor * cl_loadDateColor(NSDictionary *settings) {
 	return cl_loadColorForCase([[settings objectForKey:@"dateColor"] intValue]);
 }
 
-/******************** Calendar Appplication Generation ********************/
+/****************** Shared Calendar Appplication Generation *******************/
+
+%group Shared
 
 %hook SBCalendarApplicationIcon
 
@@ -105,7 +107,11 @@ static UIColor * cl_loadDateColor(NSDictionary *settings) {
 
 %end
 
-/********************* Calendar String Writing Hooks *********************/
+%end // %group Shared
+
+/******************** iOS >=7 Calendar String Writing Hook ********************/
+
+%group Modern
 
 %hook NSString
 
@@ -140,18 +146,61 @@ static UIColor * cl_loadDateColor(NSDictionary *settings) {
 
 %end
 
-/********************** AlertView Respring Handlers **********************/
+%end // %group Modern
 
-@interface CLAlertViewDelegate : NSObject <UIAlertViewDelegate>
-@end
+/******************** iOS <=6 Calendar String Writing Hook ********************/
 
-@implementation CLAlertViewDelegate
+%group Ancient
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-	if (buttonIndex != [alertView cancelButtonIndex]) {
-		NSLog(@"[Colendar] Received notification to respring, doing so now...");
-		[(SpringBoard *)[UIApplication sharedApplication] _relaunchSpringBoardNow];
+%hook NSString
+
+- (CGSize)drawAtPoint:(CGPoint)arg1 withFont:(id)arg2 {
+	if (!CGSizeEqualToSize(cl_iconSize, CGSizeZero)) {
+		NSDictionary *settings =  [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
+
+		if ([self intValue] <= 0) {
+			NSLog(@"[Colendar] Drawing day (%@) to point %@.", self, NSStringFromCGPoint(arg1));
+
+			[self drawAtPoint:CGPointMake(arg1.x + [[settings objectForKey:@"weekdayX"] floatValue], arg1.y + [[settings objectForKey:@"weekdayY"] floatValue]) forWidth:cl_iconSize.width withFont:[arg2 fontWithSize:(((UIFont *)arg2).pointSize + [[settings objectForKey:@"fontAddend"] floatValue])] fontColor:cl_loadWeekdayColor(settings) shadowColor:nil];
+		}
+
+		else {
+			CGFloat origin = (cl_iconSize.width - [self sizeWithFont:arg2].width) / 2.0;
+			CGPoint centered = CGPointMake(origin + [[settings objectForKey:@"dateX"] floatValue], arg1.y + [[settings objectForKey:@"dateY"] floatValue]);
+
+			NSLog(@"[Colendar] Drawing date (%@) to point %@.", self, NSStringFromCGPoint(centered));
+			[self drawAtPoint:centered forWidth:cl_iconSize.width withFont:arg2 fontColor:cl_loadDateColor(settings) shadowColor:nil];
+
+		}
+
+		if ([[settings objectForKey:@"original"] boolValue]) {
+			return %orig(arg1, arg2);
+		}
+
+		return CGSizeZero;
+	}
+
+	else {
+		return %orig(arg1, arg2);
 	}
 }
 
-@end
+%end
+
+%end // %group Ancient
+
+/************************ Theos Hook Group Constructor ************************/
+
+%ctor {
+	%init(Shared);
+
+	if (MODERN_IOS) {
+		NSLog(@"[Colendar] Injecting hooks for modern iOS versions...");
+		%init(Modern);
+	}
+
+	else {
+		NSLog(@"[Colendar] Injecting hooks for ancient iOS versions...");
+		%init(Ancient);
+	}
+}

@@ -7,6 +7,7 @@
 #import <CoreGraphics/CoreGraphics.h>
 
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+#define MODERN_IOS ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
 
 @interface NSDistributedNotificationCenter : NSNotificationCenter
 @end
@@ -89,16 +90,13 @@
 	PSEditTextViewCell,
 } PSCellType;*/
 
+// All iOS
 @interface SBCalendarApplicationIcon //: SBApplicationIcon
-+ (id)countriesRequiringBlackDayOfWeek;
 - (id)initWithApplication:(id)application;
-- (void)_drawIconIntoCurrentContextWithImageSize:(CGSize)imageSize iconBase:(id)base;
-- (BOOL)canGenerateImageInBackgroundForFormat:(int)format;
-- (id)colorForDayOfWeek;
-- (void)dealloc;
 - (id)generateIconImage:(int)image;
-- (id)getUnmaskedIconImage:(int)image;
-- (BOOL)isBlackDayOfWeekRequiredForLocale:(id)locale;
-- (void)localeChanged;
-- (id)numberFont;
-@end 
+@end
+
+// iOS 6
+@interface NSString (Private)
+- (void)drawAtPoint:(CGPoint)arg1 forWidth:(float)arg2 withFont:(id)arg3 fontColor:(id)arg4 shadowColor:(id)arg5;
+@end
