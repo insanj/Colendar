@@ -7,6 +7,7 @@
 
         <dict>
             <key>cell</key>            <string>PSGroupCell</string>
+            <key>footerText</key>      <string>All changes are updated live.</string>
         </dict>
 
 		<dict>
@@ -16,6 +17,7 @@
 			<key>key</key> 				<string>disabled</string>
             <key>negate</key>              <true/>
             <key>default</key> 			<false/>
+            <key>PostNotification</key>    <string>com.insanj.colendar/Redraw</string>
 		</dict>
 
 		<dict>
@@ -31,6 +33,7 @@
             <key>key</key> 		  <string>weekdayColor</string>
             <key>id</key> 		   <string>WeekdayColor</string>
             <key>label</key> 		<string>Text Color</string>
+            <key>PostNotification</key>    <string>com.insanj.colendar/Redraw</string>
             <key>staticTextMessage</key> <string>Choose a color preset, or clear to remove the label.</string>
             <key>validTitles</key> <array>
                 <string>Baby Blue</string>
@@ -105,6 +108,7 @@
             <key>key</key> 		      <string>weekdayFont</string>
             <key>id</key> 		       <string>WeekdayFont</string>
             <key>label</key> 	    	<string>Font</string>
+            <key>PostNotification</key>    <string>com.insanj.colendar/Redraw</string>
             <key>titlesDataSource</key>  <string>fontsTitles:</string>
             <key>valuesDataSource</key>  <string>fontsValues:</string>
         </dict>
@@ -122,6 +126,7 @@
             <key>key</key> 		  <string>dateColor</string>
             <key>id</key> 		   <string>DateColor</string>
             <key>label</key> 		<string>Text Color</string>
+            <key>PostNotification</key>    <string>com.insanj.colendar/Redraw</string>
             <key>staticTextMessage</key> <string>Choose a color preset, or clear to remove the label.</string>
             <key>validTitles</key> <array>
                 <string>Baby Blue</string>
@@ -196,6 +201,7 @@
             <key>key</key> 		      <string>dateFont</string>
             <key>id</key> 		       <string>DateFont</string>
             <key>label</key> 	    	<string>Font</string>
+            <key>PostNotification</key>    <string>com.insanj.colendar/Redraw</string>
             <key>titlesDataSource</key>  <string>fontsTitles:</string>
             <key>valuesDataSource</key>  <string>fontsValues:</string>
         </dict>
@@ -225,26 +231,9 @@
         </dict>
 
         <dict>
-            <key>cell</key>            <string>PSGroupCell</string>
-            <key>label</key>           <string>Apply</string>
-            <key>footerText</key>      <string>Requires no respring or reconfiguration.</string>
-        </dict>
-
-        <dict>
             <key>cell</key> 		 <string>PSButtonCell</string>
             <key>label</key> 	    <string>Reset To Defaults</string>
             <key>action</key> 	   <string>reset</string>
-        </dict>
-
-        <dict>
-            <key>cell</key> 		 <string>PSButtonCell</string>
-            <key>label</key> 	    <string>Apply Changes</string>
-            <key>action</key> 	   <string>apply</string>
-        </dict>
-
-
-        <dict>
-            <key>cell</key>            <string>PSGroupCell</string>
         </dict>
 
         <dict>

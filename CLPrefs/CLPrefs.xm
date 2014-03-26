@@ -27,6 +27,11 @@ static UIColor *cl_getTintColor() {
 	return clTintColor;
 }
 
+
+static void cl_redraw(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"CLChange" object:nil];
+}
+
 @implementation CLPrefsListController
 
 - (NSArray *)specifiers{
@@ -37,13 +42,12 @@ static UIColor *cl_getTintColor() {
 }
 
 - (void)loadView{
+	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, &cl_redraw, CFSTR("com.insanj.colendar/Redraw"), NULL, 0);
+
 	[super loadView];
+
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareTapped:)];
 	self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"colander.png" inBundle:[NSBundle bundleForClass:self.class]]];
-}
-
-- (void)viewDidLoad{
-	[super viewDidLoad];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -110,10 +114,6 @@ static UIColor *cl_getTintColor() {
 	else {
 		[(PreferencesAppController *)[UIApplication sharedApplication] applicationOpenURL:[NSURL URLWithString:@"prefs"]];
 	}
-}
-
-- (void)apply {
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"CLChange" object:nil];
 }
 
 - (void)winterboard {
@@ -225,9 +225,11 @@ static UIColor *cl_getTintColor() {
 - (void)layoutSubviews {
 	[super layoutSubviews];
 
-	CGRect doubleFrame = self.contentView.frame;
-	doubleFrame.size.height *= 2;
-	[self.imageView setCenter:CGPointMake(self.imageView.center.x, CGRectGetMidY(doubleFrame))];
+	if (MODERN_IOS && !IPAD) {
+		CGRect doubleFrame = self.contentView.frame;
+		doubleFrame.size.height *= 2;
+		[self.imageView setCenter:CGPointMake(self.imageView.center.x, CGRectGetMidY(doubleFrame))];
+	}
 }
 
 @end
@@ -237,10 +239,16 @@ static UIColor *cl_getTintColor() {
 - (void)layoutSubviews {
 	[super layoutSubviews];
 
-	CGRect doubleFrame = self.contentView.frame;
-	doubleFrame.origin.y -= doubleFrame.size.height;
-	doubleFrame.size.height *= 2;
-	[self.imageView setCenter:CGPointMake(self.imageView.center.x, CGRectGetMidY(doubleFrame))];
+	if (MODERN_IOS && !IPAD) {
+		CGRect doubleFrame = self.contentView.frame;
+		doubleFrame.origin.y -= doubleFrame.size.height;
+		doubleFrame.size.height *= 2;
+		[self.imageView setCenter:CGPointMake(self.imageView.center.x, CGRectGetMidY(doubleFrame))];
+	}
+
+	else {
+		self.imageView.hidden = YES;
+	}
 }
 
 @end

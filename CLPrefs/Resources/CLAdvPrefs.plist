@@ -19,6 +19,7 @@
 			<key>cell</key>			    	<string>PSSliderCell</string>
 			<key>defaults</key>		    	<string>com.insanj.colendar</string>
 			<key>key</key> 			    	<string>weekdayX</string>
+            <key>PostNotification</key>        <string>com.insanj.colendar/Redraw</string>
             <key>showValue</key>               <true/>
 			<key>min</key> 			    	<real>-20</real>
 			<key>max</key> 			    	<real>20</real>
@@ -34,6 +35,7 @@
             <key>cell</key>			    	<string>PSSliderCell</string>
             <key>defaults</key>		    	<string>com.insanj.colendar</string>
             <key>key</key> 			    	<string>weekdayY</string>
+            <key>PostNotification</key>        <string>com.insanj.colendar/Redraw</string>
             <key>showValue</key>               <true/>
             <key>min</key> 			    	<real>-20</real>
             <key>max</key> 			    	<real>20</real>
@@ -55,6 +57,7 @@
             <key>cell</key>			    	<string>PSSliderCell</string>
             <key>defaults</key>		    	<string>com.insanj.colendar</string>
             <key>key</key> 			    	<string>dateX</string>
+            <key>PostNotification</key>        <string>com.insanj.colendar/Redraw</string>
             <key>showValue</key>               <true/>
             <key>min</key> 			    	<real>-20</real>
             <key>max</key> 			    	<real>20</real>
@@ -70,6 +73,7 @@
             <key>cell</key>			    	<string>PSSliderCell</string>
             <key>defaults</key>		    	<string>com.insanj.colendar</string>
             <key>key</key> 			    	<string>dateY</string>
+            <key>PostNotification</key>        <string>com.insanj.colendar/Redraw</string>
             <key>showValue</key>               <true/>
             <key>min</key> 			    	<real>-20</real>
             <key>max</key> 			    	<real>20</real>
@@ -90,6 +94,7 @@
             <key>cell</key>			    	<string>PSSliderCell</string>
             <key>defaults</key>		    	<string>com.insanj.colendar</string>
             <key>key</key> 			    	<string>weekdayFontSize</string>
+            <key>PostNotification</key>        <string>com.insanj.colendar/Redraw</string>
             <key>showValue</key>               <true/>
             <key>min</key> 			    	<real>-5</real>
             <key>max</key> 			    	<real>5</real>
@@ -105,6 +110,7 @@
             <key>cell</key>			    	<string>PSSliderCell</string>
             <key>defaults</key>		    	<string>com.insanj.colendar</string>
             <key>key</key> 			    	<string>dateFontSize</string>
+            <key>PostNotification</key>        <string>com.insanj.colendar/Redraw</string>
             <key>showValue</key>               <true/>
             <key>min</key> 			    	<real>-5</real>
             <key>max</key> 			    	<real>5</real>
@@ -122,6 +128,7 @@
             <key>defaults</key>			<string>com.insanj.colendar</string>
             <key>label</key>               <string>Draw Original</string>
             <key>key</key> 				<string>noOriginal</string>
+            <key>PostNotification</key>    <string>com.insanj.colendar/Redraw</string>
             <key>default</key> 			<false/>
         </dict>
 
