@@ -48,15 +48,9 @@ static UIColor *cl_getTintColor() {
 
 - (void)viewWillAppear:(BOOL)animated{
 	if (MODERN_IOS) {
-	    [(UITableView *)self.view deselectRowAtIndexPath:((UITableView *)self.view).indexPathForSelectedRow animated:YES];
-
 		self.view.tintColor = cl_getTintColor();
 	    self.navigationController.navigationBar.tintColor = cl_getTintColor();
 		[UISwitch appearanceWhenContainedIn:self.class, nil].onTintColor = cl_getTintColor();
-	}
-
-	else {
-		[[self table] deselectRowAtIndexPath:[self table].indexPathForSelectedRow animated:YES];
 	}
 
 	NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"]];
@@ -104,7 +98,7 @@ static UIColor *cl_getTintColor() {
 	}
 }
 
-- (void)respring {
+- (void)apply {
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"CLChange" object:nil];
 }
 
@@ -159,13 +153,43 @@ static UIColor *cl_getTintColor() {
 	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://insanj.com/colendar"]];
 }
 
+- (void)tableView:(id)arg1 didSelectRowAtIndexPath:(id)arg2 {
+	[super tableView:arg1 didSelectRowAtIndexPath:arg2];
+	[arg1 deselectRowAtIndexPath:arg2 animated:YES];
+}
+
+- (NSArray*)fontsTitles:(id)target {
+	NSMutableArray *fonts = [[NSMutableArray alloc] init];
+	for (id familyName in [UIFont familyNames]) {
+		for (id fontName in [UIFont fontNamesForFamilyName:familyName]) {
+			[fonts addObject:fontName];
+		}
+	}
+
+	return [fonts sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+}
+
+- (NSArray*)fontsValues:(id)target {
+	return [self fontsTitles:target];
+}
+
 @end
 
 @implementation CLWinterBoardButtonCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier specifier:(PSSpecifier *)specifier {
+
+	UIImage *winterboardImage;
+	if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/WinterBoard.app/icon.png"]) {
+		winterboardImage = [UIImage imageWithContentsOfFile:@"/Applications/WinterBoard.app/icon.png"];
+	}
+
+	else {
+		winterboardImage = [UIImage imageNamed:@"nowinterboard" inBundle:[NSBundle bundleForClass:self.class]];
+	}
+
 	UIImageView *winterboardView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30.0, 30.0)];
-	[winterboardView setImage:[UIImage imageWithContentsOfFile:@"/Applications/WinterBoard.app/icon.png"]];
+	[winterboardView setImage:winterboardImage];
 	winterboardView.layer.masksToBounds = YES;
 	winterboardView.layer.cornerRadius = 7.0;
 
@@ -210,7 +234,6 @@ static UIColor *cl_getTintColor() {
 @implementation CLListItemsController
 
 - (void)viewWillAppear:(BOOL)animated{
-
 	if (MODERN_IOS) {
 		self.navigationController.navigationBar.tintColor = cl_getTintColor();
 	}
@@ -275,11 +298,41 @@ static UIColor *cl_getTintColor() {
 
 - (void)tableView:(id)arg1 didSelectRowAtIndexPath:(id)arg2 {
 	[super tableView:arg1 didSelectRowAtIndexPath:arg2];
+	[arg1 deselectRowAtIndexPath:arg2 animated:YES];
 
 	if (MODERN_IOS) {
 		cl_setTintColor();
 		self.navigationController.navigationBar.tintColor = cl_getTintColor();
 	}
+}
+
+@end
+
+@implementation CLFontItemsController
+
+- (void)viewWillAppear:(BOOL)animated {
+	if (MODERN_IOS) {
+		self.navigationController.navigationBar.tintColor = cl_getTintColor();
+	}
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+
+	if (MODERN_IOS) {
+		self.navigationController.navigationBar.tintColor = nil;
+	}
+}
+
+- (id)tableView:(id)arg1 cellForRowAtIndexPath:(id)arg2 {
+	PSTableCell *cell = [super tableView:arg1 cellForRowAtIndexPath:arg2];
+	cell.textLabel.font = [UIFont fontWithName:cell.textLabel.text size:[UIFont systemFontSize]];
+	return cell;
+}
+
+- (void)tableView:(id)arg1 didSelectRowAtIndexPath:(id)arg2 {
+	[super tableView:arg1 didSelectRowAtIndexPath:arg2];
+	[arg1 deselectRowAtIndexPath:arg2 animated:YES];
 }
 
 @end
@@ -302,16 +355,15 @@ static UIColor *cl_getTintColor() {
 		[UISwitch appearanceWhenContainedIn:self.class, nil].onTintColor = cl_getTintColor();
 		[UISlider appearanceWhenContainedIn:self.class, nil].minimumTrackTintColor = cl_getTintColor();
 
-		[(UITableView *)self.view deselectRowAtIndexPath:((UITableView *)self.view).indexPathForSelectedRow animated:YES];
-
 		self.view.tintColor = cl_getTintColor();
 		self.navigationController.navigationBar.tintColor = cl_getTintColor();
 	}
 
-	else {
-		[[self table] deselectRowAtIndexPath:[self table].indexPathForSelectedRow animated:YES];
-	}
+}
 
+- (void)tableView:(id)arg1 didSelectRowAtIndexPath:(id)arg2 {
+	[super tableView:arg1 didSelectRowAtIndexPath:arg2];
+	[arg1 deselectRowAtIndexPath:arg2 animated:YES];
 }
 
 @end

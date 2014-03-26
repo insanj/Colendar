@@ -15,5 +15,8 @@
 @interface CLListItemsController : PSListItemsController
 @end
 
+@interface CLFontItemsController : PSListItemsController
+@end
+
 @interface CLAdvPrefsListController : PSListController
 @end
