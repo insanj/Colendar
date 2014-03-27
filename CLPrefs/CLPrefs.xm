@@ -27,7 +27,6 @@ static UIColor *cl_getTintColor() {
 	return clTintColor;
 }
 
-
 static void cl_redraw(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"CLChange" object:nil];
 }
@@ -103,17 +102,66 @@ static void cl_redraw(CFNotificationCenterRef center, void *observer, CFStringRe
 }
 
 - (void)reset {
-	NSError *error;
-	BOOL removed = [[NSFileManager defaultManager] removeItemAtPath:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"] error:&error] && !error;
+	NSString *file = [NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"];
+	BOOL removed = [[NSDictionary new] writeToFile:file atomically:YES];
 
-	NSLog(@"[Colendar] %@ reset settings to defaults...", removed ? @"Successfully" : [NSString stringWithFormat:@"Failed to (%@)", error]);
-	if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/PreferenceOrganizer.dylib"] || [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/PreferenceOrganizer2.dylib"]) {
+	NSLog(@"[Colendar] %@ reset settings to defaults...", removed ? @"Successfully" : @"Failed to");
+
+	[self reloadSpecifiers];
+
+// [[NSFileManager defaultManager] removeItemAtPath:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"] error:&error] && !error;
+
+    //[self.navigationController popViewControllerAnimated:YES];
+
+	/*PSSpecifier *enabled = [self specifierForID:@"EnabledSwitch"];
+	[self setPreferenceValue:@(YES) specifier:enabled];
+	[self reloadSpecifier:enabled];
+
+	PSSpecifier *weekdayColor = [self specifierForID:@"WeekdayColor"];
+	[self setPreferenceValue:@(0.0) specifier:weekdayColor];
+	[self reloadSpecifier:weekdayColor];
+
+	PSSpecifier *weekdayFont = [self specifierForID:@"WeekdayFont"];
+	[self setPreferenceValue:nil specifier:weekdayFont];
+	[self reloadSpecifier:weekdayFont];
+
+	PSSpecifier *dateColor = [self specifierForID:@"DateColor"];
+	[self setPreferenceValue:@(0.0) specifier:dateColor];
+	[self reloadSpecifier:dateColor];
+
+	PSSpecifier *dateFont = [self specifierForID:@"DateFont"];
+	[self setPreferenceValue:nil specifier:dateFont];
+	[self reloadSpecifier:dateFont];*/
+
+/*	id value;
+	for (PSSpecifier *s in [self specifiers]) {
+		if ([s.identifier isEqualToString:@"EnabledSwitch"]) {
+			value = @(YES);
+		}
+
+		else if ([s.identifier isEqualToString:@"WeekdayColor"] || [s.identifier isEqualToString:@"DateColor"]) {
+			value = @(0.0);
+		}
+
+		else {
+			value = nil;
+		}
+
+		NSLog(@"[Colendar] Reloading specifier %@ to default value %@...", s, value);
+		[self setPreferenceValue:value specifier:s];
+		[self reloadSpecifier:s];
+	}*/
+
+	//[self updateSpecifiers:[self specifiers] withSpecifiers:[self loadSpecifiersFromPlistName:@"CLPrefs" target:self]];
+
+
+/*	if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/PreferenceOrganizer.dylib"] || [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/PreferenceOrganizer2.dylib"]) {
 		[(PreferencesAppController *)[UIApplication sharedApplication] applicationOpenURL:[NSURL URLWithString:@"prefs:root=Cydia"]];
 	}
 
 	else {
 		[(PreferencesAppController *)[UIApplication sharedApplication] applicationOpenURL:[NSURL URLWithString:@"prefs"]];
-	}
+	}*/
 }
 
 - (void)winterboard {
@@ -244,10 +292,6 @@ static void cl_redraw(CFNotificationCenterRef center, void *observer, CFStringRe
 		doubleFrame.origin.y -= doubleFrame.size.height;
 		doubleFrame.size.height *= 2;
 		[self.imageView setCenter:CGPointMake(self.imageView.center.x, CGRectGetMidY(doubleFrame))];
-	}
-
-	else {
-		self.imageView.hidden = YES;
 	}
 }
 

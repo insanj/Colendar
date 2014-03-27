@@ -3,6 +3,10 @@
 @interface CLPrefsListController : PSListController
 @end
 
+@interface PSListController (Private)
+- (void)setEnabled:(id)arg1 forSpecifier:(id)arg2;
+@end
+
 @interface CLWinterBoardButtonCell : PSTableCell
 @end
 
