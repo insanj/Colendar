@@ -241,7 +241,7 @@
 			<key>cell</key>	          <string>PSGroupCell</string>
 			<key>label</key>             <string>About</string>
             <key>footerAlignment</key>   <integer>1</integer>
-            <key>footerText</key>		<string>Thanks for using Colendar (1.1) by Julian Weiss and Jason Kesler. Please send all feedback directly from Cydia.</string>
+            <key>footerText</key>		<string>Thanks for using Colendar (1.1.1) by Julian Weiss and Jason Kesler. Please send all feedback directly from Cydia.</string>
 		</dict>
 
         <dict>

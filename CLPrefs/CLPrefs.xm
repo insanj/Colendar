@@ -102,15 +102,18 @@ static void cl_redraw(CFNotificationCenterRef center, void *observer, CFStringRe
 }
 
 - (void)reset {
-	NSString *file = [NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"];
-	BOOL removed = [[NSDictionary new] writeToFile:file atomically:YES];
+//	NSString *file = [NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"];
+//	BOOL removed = [[NSDictionary alloc] writeToFile:file atomically:YES];
+
+	NSError *error;
+	BOOL removed = [[NSFileManager defaultManager] removeItemAtPath:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"] error:&error] && !error;
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"CLChange" object:nil];
 
 	NSLog(@"[Colendar] %@ reset settings to defaults...", removed ? @"Successfully" : @"Failed to");
+	//[self reloadSpecifiers];
+	[self.navigationController popViewControllerAnimated:YES];
 
-	[self reloadSpecifiers];
-
-// [[NSFileManager defaultManager] removeItemAtPath:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/com.insanj.colendar.plist"] error:&error] && !error;
-
+//
     //[self.navigationController popViewControllerAnimated:YES];
 
 	/*PSSpecifier *enabled = [self specifierForID:@"EnabledSwitch"];
