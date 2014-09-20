@@ -5,3 +5,5 @@ debs
 obj
 _
 crush.sh
+
+Makefile
