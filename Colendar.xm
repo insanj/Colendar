@@ -78,6 +78,10 @@ static UIColor * cl_loadWeekdayColor(NSDictionary *settings) {
 	return cl_loadColorForCase([[settings objectForKey:@"weekdayColor"] intValue]);
 }
 
+static UIColor * cl_loadWeekOfYearColor(NSDictionary *settings) {
+	return cl_loadColorForCase([[settings objectForKey:@"weekofyearColor"] intValue]);
+}
+
 static UIColor * cl_loadDateColor(NSDictionary *settings) {
 	return cl_loadColorForCase([[settings objectForKey:@"dateColor"] intValue]);
 }
@@ -136,6 +140,27 @@ static UIColor * cl_loadDateColor(NSDictionary *settings) {
 			NSDictionary *attributes = @{ @"NSFont" : font, @"NSColor" : cl_loadWeekdayColor(settings)};
 
 			NSLog(@"[Colendar] Drawing day (%@) to point %@ with font %@, due to settings: %@.", self, NSStringFromCGPoint(arg1), font, settings);
+			[self drawAtPoint:centered withAttributes:attributes];
+
+			centered = CGPointMake(arg1.x + [[settings objectForKey:@"weekofyearX"] floatValue], arg1.y + [[settings objectForKey:@"weekofyearY"] floatValue]);
+			roundedFontSize = floorf([[settings objectForKey:@"weekofyearFontSize"] floatValue] * 10 + 0.5) / 10;
+			savedFontName = [settings objectForKey:@"weekofyearFont"];
+
+			if (savedFontName) {
+				font = [UIFont fontWithName:savedFontName size:(((UIFont *)arg2).pointSize + roundedFontSize)];
+			}
+
+			else {
+				font = [arg2 fontWithSize:(((UIFont *)arg2).pointSize + roundedFontSize)];
+			}
+
+			attributes = @{ @"NSFont" : font, @"NSColor" : cl_loadWeekOfYearColor(settings)};
+
+			NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSISO8601Calendar];
+			NSDateComponents * dateComponent = [calendar components:(NSWeekOfYearCalendarUnit) fromDate:[NSDate date]];
+			self = [NSString stringWithFormat:@"%li", (long)[dateComponent weekOfYear]];
+
+			NSLog(@"[Colendar] Drawing WeekOfYear (%@) to point %@ with font %@, due to settings: %@.", self, NSStringFromCGPoint(arg1), font, settings);
 			[self drawAtPoint:centered withAttributes:attributes];
 		}
 
@@ -202,6 +227,25 @@ static UIColor * cl_loadDateColor(NSDictionary *settings) {
 
 			NSLog(@"[Colendar] Drawing day (%@) to point %@ with font %@, due to settings: %@", self, NSStringFromCGPoint(arg1), font, settings);
 			[self drawAtPoint:centered forWidth:cl_iconSize.width withFont:font fontColor:cl_loadWeekdayColor(settings) shadowColor:nil];
+
+			centered = CGPointMake(arg1.x + [[settings objectForKey:@"weekofyearX"] floatValue], arg1.y + [[settings objectForKey:@"weekofyearY"] floatValue]);
+			roundedFontSize = floorf([[settings objectForKey:@"weekofyearFontSize"] floatValue] * 10 + 0.5) / 10;
+			savedFontName = [settings objectForKey:@"weekofyearFont"];
+
+			if (savedFontName) {
+				font = [UIFont fontWithName:savedFontName size:(((UIFont *)arg2).pointSize + roundedFontSize)];
+			}
+
+			else {
+				font = [arg2 fontWithSize:(((UIFont *)arg2).pointSize + roundedFontSize)];
+			}
+
+			NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSISO8601Calendar];
+			NSDateComponents * dateComponent = [calendar components:(NSWeekOfYearCalendarUnit) fromDate:[NSDate date]];
+			self = [NSString stringWithFormat:@"%li", (long)[dateComponent weekOfYear]];
+
+			NSLog(@"[Colendar] Drawing WeekOfYear (%@) to point %@ with font %@, due to settings: %@", self, NSStringFromCGPoint(arg1), font, settings);
+			[self drawAtPoint:centered forWidth:cl_iconSize.width withFont:font fontColor:cl_loadWeekOfYearColor(settings) shadowColor:nil];
 		}
 
 		else {
