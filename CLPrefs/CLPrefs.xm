@@ -64,6 +64,12 @@ static void cl_redraw(CFNotificationCenterRef center, void *observer, CFStringRe
 		[self reloadSpecifier:colorSpecifier];
 	}
 
+	if (![settings objectForKey:@"weekofyearColor"]) {
+		PSSpecifier *colorSpecifier = [self specifierForID:@"WeekOfYearColor"];
+		[self setPreferenceValue:@(0.0) specifier:colorSpecifier];
+		[self reloadSpecifier:colorSpecifier];
+	}
+
 	if (![settings objectForKey:@"dateColor"]) {
 		PSSpecifier *colorSpecifier = [self specifierForID:@"DateColor"];
 		[self setPreferenceValue:@(0.0) specifier:colorSpecifier];
